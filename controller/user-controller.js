@@ -25,6 +25,7 @@ const userController = {
         password: hash
       }))
       .then(() => {
+        req.flash('success_messages', '成功註冊帳號！')
         return res.redirect('/')
       })
       .catch(err => next(err))
@@ -33,7 +34,13 @@ const userController = {
     return res.render('signin')
   },
   signIn: (req, res) => {
+    req.flash('success_messages', '成功登入！')
     return res.redirect('/index')
+  },
+  logout: (req, res) => {
+    req.flash('success_messagges', '成功登出！')
+    req.logout()
+    return res.redirect('/signin')
   }
 }
 module.exports = userController
