@@ -28,6 +28,12 @@ const userController = {
         return res.redirect('/')
       })
       .catch(err => next(err))
+  },
+  signInPage: (req, res) => {
+    return res.render('signin')
+  },
+  signIn: (req, res) => {
+    return res.redirect('/index')
   }
 }
 module.exports = userController
