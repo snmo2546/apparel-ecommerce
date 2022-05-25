@@ -3,6 +3,9 @@ const router = express.Router()
 
 const userController = require('../controller/user-controller')
 
+router.get('/signup', userController.signUpPage)
+router.post('/signup', userController.signUp)
+
 router.get('/index', userController.getIndex)
 
 router.use('/', (req, res) => res.redirect('/index'))
