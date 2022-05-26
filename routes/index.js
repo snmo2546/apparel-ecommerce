@@ -16,7 +16,7 @@ router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
 
-router.get('/index', userController.getIndex)
+router.get('/index', userController.getProducts)
 
 router.use('/', (req, res) => res.redirect('/index'))
 router.use('/', generalErrorHandler)

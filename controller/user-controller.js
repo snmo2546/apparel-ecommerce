@@ -3,8 +3,8 @@ const db = require('../models')
 const { User } = db
 
 const userController = {
-  getIndex: (req, res) => {
-    return res.render('index')
+  getProducts: (req, res) => {
+    return res.render('products')
   },
   signUpPage: (req, res) => {
     return res.render('signup')

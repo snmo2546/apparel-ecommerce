@@ -10,7 +10,7 @@ const { authenticatedAdmin } = require('../../middleware/auth')
 router.get('/signin', adminController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/admin/signin', failureFlash: false }), adminController.signIn)
 
-router.get('/index', authenticatedAdmin, adminController.getIndex)
+router.get('/index', authenticatedAdmin, adminController.getProducts)
 
 router.get('/', (req, res) => res.redirect('/admin/index'))
 
