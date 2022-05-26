@@ -46,15 +46,14 @@
 <div class="container">
   <h1 class="mt-5">Apparel管理後台</h1>
   <a class="btn btn-primary mt-3" href="/admin/products/create" role="button">新增商品</a>
-  <div class="card-container mt-3">
+  <div class="card-container d-flex mt-3">
     {{#each products}}
       <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+        <img src="https://media.karousell.com/media/photos/products/2021/11/19/goopi_x_gu__1637316426_a149c02d_progressive.jpg" class="card-img-top">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title">{{this.name}}</h5>
+          <span>{{this.price}}</span>
+          <p class="card-text">{{this.description}}</p>
         </div>
       </div>
     {{/each}}
