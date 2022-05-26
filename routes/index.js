@@ -4,6 +4,9 @@ const router = express.Router()
 const passport = require('../config/passport')
 
 const userController = require('../controller/user-controller')
+const admin = require('./modules/admin')
+
+router.use('/admin', admin)
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
