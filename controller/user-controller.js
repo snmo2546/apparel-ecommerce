@@ -15,7 +15,7 @@ const userController = {
 
     return User.findOne({ where: { email } })
       .then(registeredEmail => {
-        if (registeredEmail) throw new Error('Email already been used!')
+        if (registeredEmail) throw new Error('Email has already been used!')
 
         return bcrypt.hash(password, 10)
       })
