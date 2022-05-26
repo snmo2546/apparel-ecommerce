@@ -3,7 +3,9 @@ const router = express.Router()
 
 const adminController = require('../../controller/admin-controller')
 
-router.get('/index', adminController.getIndex)
+const { authenticatedAdmin } = require('../../middleware/auth')
+
+router.get('/index', authenticatedAdmin, adminController.getIndex)
 
 router.get('/', (req, res) => res.redirect('/admin/index'))
 
