@@ -46,6 +46,40 @@ const adminController = {
         return res.render('admin/product', { product })
       })
       .catch(err => next(err))
+  },
+  editProduct: (req, res, next) => {
+    return Product.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(product => {
+        if (!product) throw new Error("Product doesn't exist!")
+
+        return res.render('admin/edit-product', { product })
+      })
+      .catch(err => next(err))
+  },
+  putProduct: (req, res, next) => {
+    const { name, price, description, image } = req.body
+
+    if (!name) throw new Error('Product name is required!')
+    if (!price) throw new Error('Product price is required!')
+
+    return Product.findByPk(req.params.id)
+      .then(product => {
+        if (!product) throw new Error("Product doesn't exist!")
+
+        return product.update({
+          name,
+          price,
+          description,
+          image
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '成功更新商品資訊')
+        return res.redirect('/admin/index')
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = adminController
