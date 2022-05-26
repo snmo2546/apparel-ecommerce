@@ -1,0 +1,22 @@
+<form action="/admin/products" method="POST">
+  <div class="mb-4 text-center">
+    <h1 class="h3 font-weight-normal mb-3">新增商品</h1>
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="name">Name</label>
+    <input class="form-control" type="text" name="name" id="name" required>
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="price">Price</label>
+    <input class="form-control" type="number" name="price" id="price" required>
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="description">Description</label>
+    <input class="form-control" type="text" name="description" id="description">
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="image">Image</label>
+    <input class="form-control-file" type="file" name="image" id="image">
+  </div>
+  <button type="submit" class="btn btn-primary">提交</button>
+</form>
