@@ -24,7 +24,7 @@ const adminController = {
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
 
-    Product.create({
+    return Product.create({
       name,
       price,
       description,
@@ -33,6 +33,17 @@ const adminController = {
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
         return res.redirect('/admin/index')
+      })
+      .catch(err => next(err))
+  },
+  getProduct: (req, res, next) => {
+    return Product.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(product => {
+        if (!product) throw new Error("Product doesn't exist!")
+
+        return res.render('admin/product', { product })
       })
       .catch(err => next(err))
   }
