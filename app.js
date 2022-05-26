@@ -5,6 +5,7 @@ const flash = require('connect-flash')
 
 const routes = require('./routes')
 const passport = require('./config/passport')
+const { getUser } = require('./helpers/auth-helpers')
 
 const app = express()
 const port = 3000
@@ -24,6 +25,7 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
+  res.locals.user = getUser(req)
   next()
 })
 
