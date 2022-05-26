@@ -55,7 +55,12 @@
             <h5 class="card-title">{{this.name}}</h5>
             <span>{{this.price}}</span>
             <p class="card-text">{{this.description}}</p>
-            <div><a class="btn btn-primary" href="/admin/products/{{this.id}}/edit">Edit</a></div>
+            <div>
+              <a class="btn btn-primary" href="/admin/products/{{this.id}}/edit">Edit</a>
+              <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm(`確定要刪除 {{this.name}} 嗎？`)">Delete</button>
+              </form>
+            </div>
           </div>
         </a>
       </div>

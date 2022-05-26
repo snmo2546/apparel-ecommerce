@@ -80,6 +80,15 @@ const adminController = {
         return res.redirect('/admin/index')
       })
       .catch(err => next(err))
+  },
+  deleteProduct: (req, res, next) => {
+    return Product.findByPk(req.params.id)
+      .then(product => {
+        if (!product) throw new Error("Product doesn't exist!")
+        return product.destroy()
+      })
+      .then(() => res.redirect('/admin/index'))
+      .catch(err => next(err))
   }
 }
 module.exports = adminController
