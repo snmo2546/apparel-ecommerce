@@ -46,7 +46,7 @@
 <div class="container">
   <h1 class="mt-5">Apparel管理後台</h1>
   <a class="btn btn-primary mt-3" href="/admin/products/create" role="button">新增商品</a>
-  <div class="card-container d-flex mt-3">
+  <div class="card-container d-flex flex-wrap mt-3">
     {{#each products}}
       <div class="card" style="width: 18rem;">
         <a href="/admin/products/{{this.id}}">
