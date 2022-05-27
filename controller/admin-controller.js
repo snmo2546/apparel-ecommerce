@@ -1,4 +1,5 @@
 const { Product } = require('../models')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getProducts: (req, res, next) => {
@@ -19,17 +20,20 @@ const adminController = {
     return res.render('admin/create-product')
   },
   postProduct: (req, res, next) => {
-    const { name, price, description, image } = req.body
+    const { name, price, description } = req.body
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
 
-    return Product.create({
-      name,
-      price,
-      description,
-      image
-    })
+    const { file } = req
+
+    return localFileHandler(file)
+      .then(filePath => Product.create({
+        name,
+        price,
+        description,
+        image: filePath || null
+      }))
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
         return res.redirect('/admin/index')
@@ -59,20 +63,25 @@ const adminController = {
       .catch(err => next(err))
   },
   putProduct: (req, res, next) => {
-    const { name, price, description, image } = req.body
+    const { name, price, description } = req.body
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
 
-    return Product.findByPk(req.params.id)
-      .then(product => {
+    const { file } = req
+
+    return Promise.all([
+      Product.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([product, filePath]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
         return product.update({
           name,
           price,
           description,
-          image
+          image: filePath || null
         })
       })
       .then(() => {
