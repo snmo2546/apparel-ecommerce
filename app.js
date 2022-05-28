@@ -9,8 +9,12 @@ const routes = require('./routes')
 const passport = require('./config/passport')
 const { getUser } = require('./helpers/auth-helpers')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const SESSION_SECRET = 'secret'
 
 app.engine('.hbs', engine({ extname: '.hbs' }))
