@@ -5,6 +5,7 @@ const passport = require('../../config/passport')
 
 const adminController = require('../../controller/admin-controller')
 const categoryController = require('../../controller/category-controller')
+const brandController = require('../../controller/brand-controller')
 
 const { authenticatedAdmin } = require('../../middleware/auth')
 const upload = require('../../middleware/multer')
@@ -24,6 +25,8 @@ router.put('/categories/:id', authenticatedAdmin, categoryController.putCategory
 router.delete('/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 router.get('/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/categories', authenticatedAdmin, categoryController.postCategory)
+
+router.get('/brands', authenticatedAdmin, brandController.getBrands)
 
 router.get('/index', authenticatedAdmin, adminController.getProducts)
 
