@@ -7,6 +7,14 @@
   <input class="form-control" type="number" name="price" id="price" value="{{product.price}}" required>
 </div>
 <div class="form-row mb-3">
+  <label class="form-label" for="categoryId">Category</label>
+  <select class="form-control" id="categoryId" name="categoryId">
+    {{#each categories}}
+      <option value="{{this.id}}" {{#ifCond this.id ../product.categoryId}}selected{{/ifCond}}>{{this.name}}</option>
+    {{/each}}
+  </select>
+</div>
+<div class="form-row mb-3">
   <label class="form-label" for="description">Description</label>
   <textarea class="form-control" type="text" name="description" id="description">{{product.description}}</textarea>
 </div>

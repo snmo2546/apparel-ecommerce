@@ -1,4 +1,4 @@
-const { Product } = require('../models')
+const { Product, Category } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -16,11 +16,15 @@ const adminController = {
     req.flash('success_messages', '成功登入！')
     return res.redirect('/admin/index')
   },
-  createProduct: (req, res) => {
-    return res.render('admin/create-product')
+  createProduct: (req, res, next) => {
+    return Category.findAll({
+      raw: true
+    })
+      .then(categories => res.render('admin/create-product', { categories }))
+      .catch(err => next(err))
   },
   postProduct: (req, res, next) => {
-    const { name, price, description } = req.body
+    const { name, price, description, categoryId } = req.body
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
@@ -32,7 +36,8 @@ const adminController = {
         name,
         price,
         description,
-        image: filePath || null
+        image: filePath || null,
+        categoryId
       }))
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
@@ -42,7 +47,9 @@ const adminController = {
   },
   getProduct: (req, res, next) => {
     return Product.findByPk(req.params.id, {
-      raw: true
+      raw: true,
+      nest: true,
+      include: [Category]
     })
       .then(product => {
         if (!product) throw new Error("Product doesn't exist!")
@@ -52,18 +59,19 @@ const adminController = {
       .catch(err => next(err))
   },
   editProduct: (req, res, next) => {
-    return Product.findByPk(req.params.id, {
-      raw: true
-    })
-      .then(product => {
+    return Promise.all([
+      Product.findByPk(req.params.id, { raw: true }),
+      Category.findAll({ raw: true })
+    ])
+      .then(([product, categories]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('admin/edit-product', { product })
+        return res.render('admin/edit-product', { product, categories })
       })
       .catch(err => next(err))
   },
   putProduct: (req, res, next) => {
-    const { name, price, description } = req.body
+    const { name, price, description, categoryId } = req.body
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
@@ -81,7 +89,8 @@ const adminController = {
           name,
           price,
           description,
-          image: filePath || null
+          image: filePath || product.image,
+          categoryId
         })
       })
       .then(() => {

@@ -7,6 +7,7 @@ const path = require('path')
 
 const routes = require('./routes')
 const passport = require('./config/passport')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const { getUser } = require('./helpers/auth-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
@@ -17,7 +18,7 @@ const app = express()
 const port = process.env.PORT || 3000
 const SESSION_SECRET = 'secret'
 
-app.engine('.hbs', engine({ extname: '.hbs' }))
+app.engine('.hbs', engine({ extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', '.hbs')
 app.set('views', './views')
 

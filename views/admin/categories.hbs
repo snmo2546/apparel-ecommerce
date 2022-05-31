@@ -43,32 +43,58 @@
   </div>
 </nav>
 
-<div class="container">
-  {{>admin-tabs route='products'}}
-  <a class="btn btn-primary mt-3" href="/admin/products/create" role="button">新增商品</a>
-  <div class="card-container d-flex flex-wrap mt-3">
-    {{#each products}}
-      <div class="card" style="width: 18rem;">
-        <a href="/admin/products/{{this.id}}">
-          {{#if this.image}}
-            <img src="{{this.image}}"
-              class="card-img-top">
-          {{else}}
-            <img src="https://media.karousell.com/media/photos/products/2021/11/19/goopi_x_gu__1637316426_a149c02d_progressive.jpg"
-              class="card-img-top">
-          {{/if}}
-          <div class="card-body">
-            <h5 class="card-title">{{this.name}}</h5>
-            <span>{{this.price}}</span>
-            <div>
-              <a class="btn btn-primary" href="/admin/products/{{this.id}}/edit">Edit</a>
-              <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-danger" onclick="return confirm(`確定要刪除 {{this.name}} 嗎？`)">Delete</button>
-              </form>
-            </div>
-          </div>
-        </a>
+{{>admin-tabs route='categories'}}
+
+<div class="d-flex align-items-center pt-3 pb-5 my-3 text-white-50 bg-purple">
+  {{#if category}}
+    <form class="row" action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+      <div class="col-auto">
+        <input class="form-control" type="text" placeholder="分類名稱" name="name" value="{{category.name}}">
       </div>
-    {{/each}}
-  </div>
+      <div class="col-auto">
+        <button class="btn btn-warning" type="submit">更新</button>
+        <a class="btn btn-link link-secondary" href="/admin/categories">or Create New</a>
+      </div>
+    </form>
+  {{else}}
+    <form class="row" action="/admin/categories" method="POST">
+      <div class="col-auto">
+        <input class="form-control" type="text" placeholder="分類名稱" name="name">
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-success" type="submit">新增</button>
+      </div>
+    </form>
+  {{/if}}
 </div>
+
+<table class="table align-middle">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category Name</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each categories}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>
+          <button type="button" class="btn btn-link">
+            <a class="btn btn-link link-primary" href="/admin/categories/{{this.id}}">
+              Edit
+            </a>
+          </button>
+          <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link link-danger" onclick="return confirm(`確定要刪除 {{this.name}} 分類嗎？`)">
+              Delete</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<br />
+<br />
