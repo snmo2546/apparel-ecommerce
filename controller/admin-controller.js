@@ -1,4 +1,4 @@
-const { Product, Category } = require('../models')
+const { Product, Category, Brand } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -48,7 +48,7 @@ const adminController = {
     return Product.findByPk(req.params.id, {
       raw: true,
       nest: true,
-      include: [Category]
+      include: [Category, Brand]
     })
       .then(product => {
         if (!product) throw new Error("Product doesn't exist!")
