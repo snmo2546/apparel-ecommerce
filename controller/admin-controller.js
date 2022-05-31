@@ -25,11 +25,10 @@ const adminController = {
   },
   postProduct: (req, res, next) => {
     const { name, price, description, categoryId } = req.body
+    const { file } = req
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
-
-    const { file } = req
 
     return imgurFileHandler(file)
       .then(filePath => Product.create({
@@ -72,11 +71,10 @@ const adminController = {
   },
   putProduct: (req, res, next) => {
     const { name, price, description, categoryId } = req.body
+    const { file } = req
 
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
-
-    const { file } = req
 
     return Promise.all([
       Product.findByPk(req.params.id),

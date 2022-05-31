@@ -26,6 +26,8 @@ router.delete('/categories/:id', authenticatedAdmin, categoryController.deleteCa
 router.get('/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/categories', authenticatedAdmin, categoryController.postCategory)
 
+router.get('/brands/create', authenticatedAdmin, brandController.createBrand)
+router.post('/brands', authenticatedAdmin, upload.single('image'), brandController.postBrand)
 router.get('/brands', authenticatedAdmin, brandController.getBrands)
 
 router.get('/index', authenticatedAdmin, adminController.getProducts)
