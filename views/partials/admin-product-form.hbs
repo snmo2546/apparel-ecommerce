@@ -7,6 +7,14 @@
   <input class="form-control" type="number" name="price" id="price" value="{{product.price}}" required>
 </div>
 <div class="form-row mb-3">
+  <label class="form-label" for="brandId">品牌</label>
+  <select class="form-control" id="brandId" name="brandId">
+    {{#each brands}}
+      <option value="{{this.id}}" {{#ifCond this.id ../product.brandId}}selected{{/ifCond}}>{{this.name}}</option>
+    {{/each}}
+  </select>
+</div>
+<div class="form-row mb-3">
   <label class="form-label" for="categoryId">Category</label>
   <select class="form-control" id="categoryId" name="categoryId">
     {{#each categories}}

@@ -17,14 +17,15 @@ const adminController = {
     return res.redirect('/admin/index')
   },
   createProduct: (req, res, next) => {
-    return Category.findAll({
-      raw: true
-    })
-      .then(categories => res.render('admin/create-product', { categories }))
+    return Promise.all([
+      Category.findAll({ raw: true }),
+      Brand.findAll({ raw: true })
+    ])
+      .then(([categories, brands]) => res.render('admin/create-product', { categories, brands }))
       .catch(err => next(err))
   },
   postProduct: (req, res, next) => {
-    const { name, price, description, categoryId } = req.body
+    const { name, price, description, categoryId, brandId } = req.body
     const { file } = req
 
     if (!name) throw new Error('Product name is required!')
@@ -36,7 +37,8 @@ const adminController = {
         price,
         description,
         image: filePath || null,
-        categoryId
+        categoryId,
+        brandId
       }))
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
@@ -60,17 +62,18 @@ const adminController = {
   editProduct: (req, res, next) => {
     return Promise.all([
       Product.findByPk(req.params.id, { raw: true }),
-      Category.findAll({ raw: true })
+      Category.findAll({ raw: true }),
+      Brand.findAll({ raw: true })
     ])
-      .then(([product, categories]) => {
+      .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('admin/edit-product', { product, categories })
+        return res.render('admin/edit-product', { product, categories, brands })
       })
       .catch(err => next(err))
   },
   putProduct: (req, res, next) => {
-    const { name, price, description, categoryId } = req.body
+    const { name, price, description, categoryId, brandId } = req.body
     const { file } = req
 
     if (!name) throw new Error('Product name is required!')
@@ -88,7 +91,8 @@ const adminController = {
           price,
           description,
           image: filePath || product.image,
-          categoryId
+          categoryId,
+          brandId
         })
       })
       .then(() => {
