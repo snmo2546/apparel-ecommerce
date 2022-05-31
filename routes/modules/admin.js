@@ -27,6 +27,8 @@ router.get('/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/categories', authenticatedAdmin, categoryController.postCategory)
 
 router.get('/brands/create', authenticatedAdmin, brandController.createBrand)
+router.get('/brands/:id/edit', authenticatedAdmin, brandController.editBrand)
+router.put('/brands/:id', authenticatedAdmin, upload.single('image'), brandController.putBrand)
 router.post('/brands', authenticatedAdmin, upload.single('image'), brandController.postBrand)
 router.get('/brands', authenticatedAdmin, brandController.getBrands)
 
