@@ -21,6 +21,7 @@ router.post('/products', authenticatedAdmin, upload.single('image'), adminContro
 
 router.get('/categories/:id', authenticatedAdmin, categoryController.getCategories)
 router.put('/categories/:id', authenticatedAdmin, categoryController.putCategory)
+router.delete('/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 router.get('/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/categories', authenticatedAdmin, categoryController.postCategory)
 
