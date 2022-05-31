@@ -4,6 +4,10 @@ const faker = require('faker')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const categories = await queryInterface.sequelize.query(
+      'SELECT id FROM Categories;',
+      { type: queryInterface.sequelize.QueryTypes.SELECT }
+    )
     await queryInterface.bulkInsert('Products',
       Array.from({ length: 50 }, () => ({
         name: faker.lorem.word(),
@@ -11,7 +15,8 @@ module.exports = {
         image: `https://loremflickr.com/320/240/apparel/?random=${Math.floor(Math.random() * 100)}`,
         description: faker.lorem.text().substring(0, 150),
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        category_id: categories[Math.floor(Math.random() * categories.length)].id
       }))
     )
   },

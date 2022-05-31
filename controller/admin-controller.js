@@ -81,7 +81,7 @@ const adminController = {
           name,
           price,
           description,
-          image: filePath || null
+          image: filePath || product.image
         })
       })
       .then(() => {
