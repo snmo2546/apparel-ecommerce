@@ -65,6 +65,19 @@ const brandController = {
         return res.redirect('/admin/brands')
       })
       .catch(err => next(err))
+  },
+  deleteBrand: (req, res, next) => {
+    return Brand.findByPk(req.params.id)
+      .then(brand => {
+        if (!brand) throw new Error("Brand doesn't exist!")
+
+        return brand.destroy()
+      })
+      .then(() => {
+        req.flash('success_messages', '成功刪除品牌')
+        return res.redirect('/admin/brands')
+      })
+      .catch(err => next(err))
   }
 }
 

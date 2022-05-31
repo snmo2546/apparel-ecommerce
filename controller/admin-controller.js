@@ -103,7 +103,10 @@ const adminController = {
         if (!product) throw new Error("Product doesn't exist!")
         return product.destroy()
       })
-      .then(() => res.redirect('/admin/index'))
+      .then(() => {
+        req.flash('success_messages', '成功刪除商品！')
+        return res.redirect('/admin/index')
+      })
       .catch(err => next(err))
   }
 }
