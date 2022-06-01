@@ -8,6 +8,10 @@ module.exports = {
       'SELECT id FROM Categories;',
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     )
+    const brands = await queryInterface.sequelize.query(
+      'SELECT id FROM Brands;',
+      { type: queryInterface.sequelize.QueryTypes.SELECT }
+    )
     await queryInterface.bulkInsert('Products',
       Array.from({ length: 50 }, () => ({
         name: faker.lorem.word(),
@@ -16,7 +20,8 @@ module.exports = {
         description: faker.lorem.text().substring(0, 150),
         created_at: new Date(),
         updated_at: new Date(),
-        category_id: categories[Math.floor(Math.random() * categories.length)].id
+        category_id: categories[Math.floor(Math.random() * categories.length)].id,
+        brand_id: brands[Math.floor(Math.random() * brands.length)].id
       }))
     )
   },

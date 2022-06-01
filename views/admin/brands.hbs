@@ -1,0 +1,36 @@
+{{> admin-navbar}}
+
+<div class="container">
+  {{>admin-tabs route='brands'}}
+  <a class="btn btn-primary mt-3" href="/admin/brands/create" role="button">新增品牌</a>
+  <table class="table align-middle">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Brand Name</th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each brands}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.name}}</td>
+          <td>
+            <button type="button" class="btn btn-link">
+              <a class="btn btn-link link-primary" href="/admin/brands/{{this.id}}/edit">
+                Edit
+              </a>
+            </button>
+            <form action="/admin/brands/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-link link-danger" onclick="return confirm(`確定要刪除 {{this.name}} 品牌嗎？`)">
+                Delete</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <br />
+  <br />
+</div>
