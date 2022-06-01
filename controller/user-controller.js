@@ -3,9 +3,6 @@ const db = require('../models')
 const { User } = db
 
 const userController = {
-  getProducts: (req, res) => {
-    return res.render('products')
-  },
   signUpPage: (req, res) => {
     return res.render('signup')
   },

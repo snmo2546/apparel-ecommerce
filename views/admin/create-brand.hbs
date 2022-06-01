@@ -1,6 +1,9 @@
-<form action="/admin/brands" method="POST" enctype="multipart/form-data">
-  <div class="mb-4 text-center">
-    <h1 class="h3 font-weight-normal mb-3">新增品牌</h1>
-  </div>
-  {{> admin-brand-form}}
-</form>
+<div class="container">
+  {{>admin-navbar}}
+  <form action="/admin/brands" method="POST" enctype="multipart/form-data">
+    <div class="mb-4 text-center">
+      <h1 class="h3 font-weight-normal mb-3">新增品牌</h1>
+    </div>
+    {{> admin-brand-form}}
+  </form>
+</div>

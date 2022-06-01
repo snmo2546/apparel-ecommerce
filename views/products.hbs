@@ -1,1 +1,25 @@
-<h1>index</h1>
+<div class="container">
+  {{> navbar}}
+
+  <div class="row mt-3">
+    {{#each products}}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="/products/{{this.id}}">
+            <img class="card-img-top img-fluid" src="{{this.image}}" alt="Card image cap" width="286px" height="180px"
+              style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+          </a>
+          <div class="card-body">
+            <span class="card-text fs-5">
+              <a href="/restaurants/{{this.id}}">
+                {{this.name}}
+              </a>
+            </span>
+            <br>
+            <span>{{this.price}}</span>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div> 
+</div>
