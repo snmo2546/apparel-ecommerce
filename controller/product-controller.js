@@ -15,15 +15,19 @@ const productController = {
       .catch(err => next(err))
   },
   getProduct: (req, res, next) => {
-    return Product.findByPk(req.params.id, {
-      raw: true,
-      nest: true,
-      include: [Category, Brand]
-    })
-      .then(product => {
+    return Promise.all([
+      Product.findByPk(req.params.id, {
+        raw: true,
+        nest: true,
+        include: [Category, Brand]
+      }),
+      Category.findAll({ raw: true }),
+      Brand.findAll({ raw: true })      
+    ])
+      .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('product', { product })
+        return res.render('product', { product, categories, brands })
       })
       .catch(err => next(err))
   },
