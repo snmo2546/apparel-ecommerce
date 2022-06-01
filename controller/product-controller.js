@@ -4,7 +4,8 @@ const productController = {
   getProducts: (req, res, next) => {
     return Product.findAll({
       raw: true,
-      nest: true
+      nest: true,
+      order: [['createdAt', 'DESC']]
     })
       .then(products => res.render('products', { products }))
       .catch(err => next(err))
@@ -28,7 +29,7 @@ const productController = {
       nest: true,
       order: [['createdAt', 'DESC']]
     })
-      .then(products => res.render('products', { products }))
+      .then(products => res.render('new-arrivals', { products }))
       .catch(err => next(err))      
   }
 }
