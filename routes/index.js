@@ -17,9 +17,11 @@ router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
 
+router.get('/products/categories/:categoryId', productController.getCategoryProd)
+router.get('/products/brands/:brandId', productController.getBrandProd)
 router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
-router.get('/index', productController.getProducts)
+router.get('/index', productController.getIndex)
 
 router.use('/', (req, res) => res.redirect('/index'))
 router.use('/', generalErrorHandler)

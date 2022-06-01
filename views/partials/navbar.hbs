@@ -16,11 +16,9 @@
             Categories
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">上衣</a></li>
-            <li><a class="dropdown-item" href="#">褲款</a></li>
-            <li><a class="dropdown-item" href="#">鞋子</a></li>
-            <li><a class="dropdown-item" href="#">帽子</a></li>
-            <li><a class="dropdown-item" href="#">配件</a></li>
+            {{#each categories}}
+              <li><a class="dropdown-item" href="/products/categories/{{this.id}}">{{this.name}}</a></li>
+            {{/each}}
           </ul>
         </li>
         <li class="nav-item dropdown ms-3">
@@ -29,11 +27,9 @@
             Brands
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">GooPi</a></li>
-            <li><a class="dropdown-item" href="#">Melsign</a></li>
-            <li><a class="dropdown-item" href="#">wlofsd</a></li>
-            <li><a class="dropdown-item" href="#">Sense of Place</a></li>
-            <li><a class="dropdown-item" href="#">Urban Research</a></li>
+            {{#each brands}}
+              <li><a class="dropdown-item" href="/products/brands/{{this.id}}">{{this.name}}</a></li>
+            {{/each}}
           </ul>
         </li>
       </ul>
