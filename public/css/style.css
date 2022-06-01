@@ -9,3 +9,11 @@ a {
   object-fit: contain;
   margin-bottom: 100px;
 }
+
+.card {
+  border: none;
+}
+
+.card:hover {
+  opacity: 0.5;
+}
