@@ -1,7 +1,7 @@
-{{>admin-navbar}}
+<div class="container">  
+  {{> admin-navbar}}
 
-<div class="container">
-  {{>admin-tabs route='products'}}
+  {{> admin-tabs route='products'}}
   <a class="btn btn-primary mt-3" href="/admin/products/create" role="button">新增商品</a>
   <div class="card-container d-flex flex-wrap mt-3">
     {{#each products}}

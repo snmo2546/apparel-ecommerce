@@ -2,3 +2,18 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.front-banner {
+  width: 100%;
+  height: 450px;
+  object-fit: contain;
+  margin-bottom: 100px;
+}
+
+.card {
+  border: none;
+}
+
+.card:hover {
+  opacity: 0.5;
+}
