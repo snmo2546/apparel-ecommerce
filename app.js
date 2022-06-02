@@ -8,7 +8,7 @@ const path = require('path')
 const routes = require('./routes')
 const passport = require('./config/passport')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
-const { getUser } = require('./helpers/auth-helpers')
+const helpers = require('./helpers/auth-helpers')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -36,7 +36,7 @@ app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
-  res.locals.user = getUser(req)
+  res.locals.user = helpers.getUser(req)
   next()
 })
 

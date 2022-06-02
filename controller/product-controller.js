@@ -28,7 +28,7 @@ const productController = {
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('product', { product, categories, brands, user: helpers.getUser(req) })
+        return res.render('product', { product, categories, brands })
       })
       .catch(err => next(err))
   },
