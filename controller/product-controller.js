@@ -1,4 +1,5 @@
 const { Product, Category, Brand } = require('../models')
+const helpers = require('../helpers/auth-helpers')
 
 const productController = {
   getIndex: (req, res, next) => {
@@ -27,7 +28,7 @@ const productController = {
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('product', { product, categories, brands })
+        return res.render('product', { product, categories, brands, user: helpers.getUser(req) })
       })
       .catch(err => next(err))
   },
