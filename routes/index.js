@@ -24,6 +24,7 @@ router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
 
 router.post('/cart/:userId', cartController.addToCart)
+router.put('/cart/:userId', cartController.putCartItem)
 router.delete('/cart/:userId', cartController.deleteCartItem)
 router.get('/cart', cartController.getCart)
 

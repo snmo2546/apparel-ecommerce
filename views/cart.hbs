@@ -9,8 +9,8 @@
           <tr>
             <th scope="col" style="width: 40%">商品</th>
             <th scope="col" style="width: 15%">單價</th>
-            <th scope="col" style="width: 10%">數量</th>
-            <th scope="col" style="width: 20%">小計</th>
+            <th scope="col" style="width: 12%">數量</th>
+            <th scope="col" style="width: 18%">小計</th>
             <th scope="col" style="width: 15%">變更</th>
           </tr>
         </thead>
@@ -25,7 +25,19 @@
                   </a>
                 </th>
                 <td>NT$ {{this.amount}}</td>
-                <td>{{this.quantity}}</td>
+                <td>
+                  <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <input type="hidden" name="change" value="decrease">
+                    <button type="submit" class="quantity-decrease-button"> <&ensp; </button>
+                  </form>
+                  <span hidden>{{this.id}}</span>
+                  <span> {{this.quantity}} </span>
+                  <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <input type="hidden" name="change" value="increase">
+                    <button type="submit" class="quantity-increase-button"> &ensp;> </button>
+                  </form>                </td>
                 <td>NT$ {{calculateTotal this.amount this.quantity}}</td>
                 <td>
                   <form action="/cart/{{../user.id}}?_method=DELETE" method="POST">

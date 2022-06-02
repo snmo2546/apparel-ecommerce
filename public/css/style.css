@@ -22,3 +22,13 @@ a {
   height: 40%;
   width: 40%;
 }
+
+.quantity-decrease-button, .quantity-increase-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}

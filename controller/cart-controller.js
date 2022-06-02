@@ -51,6 +51,26 @@ const cartController = {
         return res.redirect('back')
       })
       .catch(err => next(err))
+  },
+  putCartItem: (req, res, next) => {
+    const { id, change } = req.body
+
+    return Cart.findByPk(id)
+      .then(cartItem => {
+        if (!cartItem) throw new Error("Item doesn't exist!")
+
+        if (change === 'increase') {
+          cartItem.update({
+            quantity: cartItem.quantity += 1
+          })
+        } else if (change === 'decrease' && cartItem.quantity > 1) {
+          cartItem.update({
+            quantity: cartItem.quantity -= 1
+          })
+        }
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => next(err))
   }
 }
 
