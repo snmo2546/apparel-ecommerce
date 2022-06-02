@@ -2,6 +2,9 @@ const { Product, Cart } = require('../models')
 const helpers = require('../helpers/auth-helpers')
 
 const cartController = {
+  getCart: (req, res) => {
+    return res.render('cart')
+  },
   addToCart: (req, res, next) => {
     const { userId } = req.params
     const { productId, price, quantity } = req.body
@@ -33,6 +36,20 @@ const cartController = {
       return res.redirect('back')
     })
     .catch(err => next(err))
+  },
+  deleteCartItem: (req, res, next) => {
+    const { cartItemId } = req.body
+    return Cart.findByPk(cartItemId)
+      .then(cartItem => {
+        if (!cartItem) throw new Error("Item doesn't exist in cart!")
+
+        return cartItem.destroy()
+      })
+      .then(() => {
+        req.flash('success_messages', '成功刪除商品！')
+        return res.redirect('back')
+      })
+      .catch(err => next(err))
   }
 }
 

@@ -2,7 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const bcrypt = require('bcryptjs')
 
-const { User, Cart } = require('../models')
+const { User, Cart, Product } = require('../models')
 
 passport.use(new LocalStrategy(
   {
@@ -32,7 +32,7 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((id, cb) => {
   return User.findByPk(id, {
     include: [
-      Cart
+      { model: Cart, include: Product }
     ]
   })
     .then(user => cb(null, user.toJSON()))

@@ -17,3 +17,8 @@ a {
 .card:hover {
   opacity: 0.5;
 }
+
+.cartItemImage {
+  height: 40%;
+  width: 40%;
+}
