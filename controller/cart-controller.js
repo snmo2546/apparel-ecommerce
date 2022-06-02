@@ -38,6 +38,7 @@ const cartController = {
     .catch(err => next(err))
   },
   deleteCartItem: (req, res, next) => {
+    if (Number(req.params.userId) !== helpers.getUser(req).id) throw new Error("Can't edit others cart")
     const { cartItemId } = req.body
     return Cart.findByPk(cartItemId)
       .then(cartItem => {
