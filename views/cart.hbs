@@ -1,0 +1,58 @@
+<div class="container">
+  {{> navbar}}
+  <div class="d-flex justify-content-center">
+    <div class="w-50">
+      <h3>Cart /</h3>
+      <hr>
+      <table class="table align-middle" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 40%">商品</th>
+            <th scope="col" style="width: 15%">單價</th>
+            <th scope="col" style="width: 12%">數量</th>
+            <th scope="col" style="width: 18%">小計</th>
+            <th scope="col" style="width: 15%">變更</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if user}}
+            {{#each user.Carts}}
+              <tr>
+                <th scope="row">
+                  <a href="/products/{{this.Product.id}}">
+                    <img src="{{this.Product.image}}" class="cartItemImage me-1">
+                    <span>{{this.Product.name}}</span>
+                  </a>
+                </th>
+                <td>NT$ {{this.amount}}</td>
+                <td>
+                  <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <input type="hidden" name="change" value="decrease">
+                    <button type="submit" class="quantity-decrease-button"> <&ensp; </button>
+                  </form>
+                  <span hidden>{{this.id}}</span>
+                  <span> {{this.quantity}} </span>
+                  <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <input type="hidden" name="change" value="increase">
+                    <button type="submit" class="quantity-increase-button"> &ensp;> </button>
+                  </form>                </td>
+                <td>NT$ {{calculateTotal this.amount this.quantity}}</td>
+                <td>
+                  <form action="/cart/{{../user.id}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="cartItemId" value="{{this.id}}">
+                    <button type="submit" class="btn cart-delete-button">刪除</button>                  
+                  </form>
+                </td>
+              </tr>
+            {{/each}}
+          {{/if}}
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end">
+        <a href="/checkout" class="btn btn-secondary">Checkout</a>
+      </div>
+    </div>
+  </div>
+</div>
