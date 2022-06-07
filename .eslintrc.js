@@ -10,6 +10,6 @@ module.exports = {
     },
     'rules': {
         'semi': ['error', 'never'],
-        'quotes': ['error', 'single', { 'avoidEscape': 'true' }]
+        'quotes': ['error', 'single', { 'avoidEscape': true }]
     }
 }
