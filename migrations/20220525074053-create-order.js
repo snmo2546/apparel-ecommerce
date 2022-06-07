@@ -14,9 +14,6 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
-      orderedproduct_id: {
-        type: Sequelize.INTEGER
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -24,6 +21,9 @@ module.exports = {
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      shipment_method_id: {
+        type: Sequelize.INTEGER
       }
     })
   },

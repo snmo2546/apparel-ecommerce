@@ -12,12 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Order.belongsTo(models.User, { foreignKey: 'userId' })
       Order.hasMany(models.OrderedProduct, { foreignKey: 'orderId' })
+      Order.belongsTo(models.ShipmentMethod, { foreignKey: 'shipmentMethodId' })
     }
   }
   Order.init({
     total: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    orderedproductId: DataTypes.INTEGER
+    shipmentMethodId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Order',
