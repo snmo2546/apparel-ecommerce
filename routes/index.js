@@ -6,9 +6,11 @@ const passport = require('../config/passport')
 const userController = require('../controller/user-controller')
 const productController = require('../controller/product-controller')
 const cartController = require('../controller/cart-controller')
+const orderController = require('../controller/order-controller')
 const admin = require('./modules/admin')
 
 const { generalErrorHandler } = require('../middleware/error-handler')
+const { authenticated } = require('../middleware/auth')
 
 router.use('/admin', admin)
 
@@ -27,6 +29,8 @@ router.post('/cart/:userId', cartController.addToCart)
 router.put('/cart/:userId', cartController.putCartItem)
 router.delete('/cart/:userId', cartController.deleteCartItem)
 router.get('/cart', cartController.getCart)
+
+router.get('/orders/new', authenticated, orderController.getNewOrder)
 
 router.get('/index', productController.getIndex)
 

@@ -9,7 +9,7 @@ const cartController = {
     const { userId } = req.params
     const { productId, price, quantity } = req.body
 
-    if (userId === "0") {
+    if (userId === '0') {
       req.flash('error_messages', 'Please login to proceed!')
       return res.redirect('/signin')
     }
@@ -55,17 +55,21 @@ const cartController = {
   putCartItem: (req, res, next) => {
     const { id, change } = req.body
 
-    return Cart.findByPk(id)
+    return Cart.findByPk(id, {
+      include: [Product]
+    })
       .then(cartItem => {
         if (!cartItem) throw new Error("Item doesn't exist!")
 
         if (change === 'increase') {
           cartItem.update({
-            quantity: cartItem.quantity += 1
+            quantity: cartItem.quantity += 1,
+            amount: cartItem.quantity * cartItem.Product.price
           })
         } else if (change === 'decrease' && cartItem.quantity > 1) {
           cartItem.update({
-            quantity: cartItem.quantity -= 1
+            quantity: cartItem.quantity -= 1,
+            amount: cartItem.quantity * cartItem.Product.price
           })
         }
       })

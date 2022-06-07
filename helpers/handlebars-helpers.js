@@ -5,5 +5,12 @@ module.exports = {
   arrayLength: a => a ? a.length : 0,
   calculateTotal: function (a, b) {
     return a * b
+  },
+  calculateCartTotal: function (a) {
+    let total = 0
+    a.forEach(item => {
+      total += item.amount
+    })
+    return total
   }
 }
