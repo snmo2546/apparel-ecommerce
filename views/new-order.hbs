@@ -12,9 +12,9 @@
             <label for="shipmentMethod" class="form-label">
               <h4>送貨方式</h4>
             </label>
-            <select class="form-select" id="shipmentMethod">
+            <select class="form-select" name="shipmentMethod" id="shipmentMethod">
               {{#each shipmentMethods}}
-              <option id="{{this.id}}" value="{{this.fee}}">{{this.name}}</option>
+                <option value="{{this.id}}-{{this.fee}}">{{this.name}}</option>
               {{/each}}
             </select>
           </div>
@@ -35,7 +35,7 @@
               <span id="orderTotal"></span>
             </div>
             <div class="d-flex justify-content-end mt-3">
-              <button type="submit" class="btn btn-secondary">前往結帳</button>
+              <button type="submit" class="btn btn-secondary">送出訂單</button>
             </div>
           </div>
         </form>

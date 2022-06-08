@@ -4,7 +4,7 @@ const orderTotal = document.getElementById('orderTotal')
 const productTotal = document.getElementById('productTotal')
 
 function displayShipmentFee() {
-  shipmentFee.innerText = shipmentMethod.value
+  shipmentFee.innerText = shipmentMethod.value.split('-')[1]
 }
 
 function displayOrderTotal() {
