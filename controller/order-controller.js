@@ -1,4 +1,4 @@
-const { Order, ShipmentMethod, Cart, OrderedProduct } = require('../models')
+const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail } = require('../models')
 
 const orderController = {
   getNewOrder: (req, res, next) => {
@@ -45,8 +45,30 @@ const orderController = {
       .catch(err => next(err))
   },
   postPayment: (req, res, next) => {
-    console.log(req.body)
-    return res.redirect('/')
+    const { recipient, phone, email, address, cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
+    const { userId } = req.params
+    return Promise.all([
+      ShipmentDetail.create({ recipient, phone, email, address, userId }),
+      PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode, orderId })
+    ])
+      .then(([shipmentDetail,]) => {
+        return Promise.all([
+          Order.findByPk(orderId),
+          shipmentDetail
+        ])
+      })
+      .then(([order, shipmentDetail]) => {
+        console.log(order)
+        console.log(shipmentDetail)
+        return order.update({
+          shipmentDetailId: shipmentDetail.id
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '付款已完成！')
+        return res.redirect('/index')
+      })
+      .catch(err => next(err))
   }
 }
 
