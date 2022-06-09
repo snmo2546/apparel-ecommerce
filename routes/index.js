@@ -31,6 +31,7 @@ router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
 router.get('/cart', authenticated, cartController.getCart)
 
 router.get('/orders/new', authenticated, orderController.getNewOrder)
+router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
 router.post('/orders/:userId', authenticated, orderController.postNewOrder)
 
 router.get('/index', productController.getIndex)

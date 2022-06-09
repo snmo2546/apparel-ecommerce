@@ -18,6 +18,7 @@
               {{/each}}
             </select>
           </div>
+          <input type="hidden" name="total" id="inputTotal">
           <div class="w-50 ps-3">
             <h4>訂單資訊</h4>
             <hr>
@@ -32,7 +33,7 @@
             <br>
             <div class="d-flex justify-content-between">
               <strong>合計：</strong>
-              <span id="orderTotal"></span>
+              <span id="displayTotal"></span>
             </div>
             <div class="d-flex justify-content-end mt-3">
               <button type="submit" class="btn btn-secondary">送出訂單</button>

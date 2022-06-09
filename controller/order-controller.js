@@ -12,14 +12,16 @@ const orderController = {
   },
   postNewOrder: (req, res, next) => {
     const { userId } = req.params
+    const { total } = req.body
     const shipmentMethodId = req.body.shipmentMethod.split('-')[0]
     return Promise.all([
-      Order.create({ userId, shipmentMethodId }),
+      Order.create({ userId, total, shipmentMethodId }),
       Cart.findAll({ 
         where: { userId }
       })
     ]) 
       .then(([order, cartItems]) => {
+        const currentOrder = order
         const items = cartItems.map(i => ({
           quantity: i.quantity,
           amount: i.amount,
@@ -30,16 +32,21 @@ const orderController = {
         }))
         return Promise.all([
           OrderedProduct.bulkCreate(items),
+          currentOrder,
           Cart.destroy({
             where: { userId }
           })
         ])
       })
-      .then(() => {
+      .then(([, currentOrder,]) => {
         req.flash('success_messages', '成功下單！')
-        return res.redirect('/index')
+        return res.render('payment', { currentOrder: currentOrder.toJSON() })
       })
       .catch(err => next(err))
+  },
+  postPayment: (req, res, next) => {
+    console.log(req.body)
+    return res.redirect('/')
   }
 }
 

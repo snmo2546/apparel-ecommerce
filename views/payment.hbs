@@ -1,0 +1,49 @@
+<div class="container">
+  {{> navbar}}
+  <div class="d-flex justify-content-center">
+    <div class="w-50">
+      <h3>付款 Payment</h3>
+      <hr>
+      <h4 class="text-center"><strong>訂單合計：{{currentOrder.total}}</strong></h4>
+      <hr>
+      <form action="/orders/payment/{{user.id}}" method="POST">
+        <h5><strong>配送資料</strong></h5>
+        <br>
+        <div class="mb-3">
+          <label for="recipient" class="form-label">收件人姓名</label>
+          <input type="text" class="form-control" name="recipient">
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">收件人電話</label>
+          <input type="text" class="form-control" name="phone">
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">收件地址</label>
+          <input type="text" class="form-control" name="address">
+        </div>
+        <hr class="mt-4">
+        <h5><strong>付款資料</strong></h5>
+        <br>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="cardNumber" placeholder="cardNumber">
+          <label for="cardNumber" class="form-label">卡號</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="cardHolder" placeholder="cardHolder">
+          <label for="cardHolder" class="form-label">持卡人姓名</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="expirationDate" placeholder="expirationDate">
+          <label for="expirationDate" class="form-label">有效期限(MM/YY)</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="securityCode" placeholder="securityCode">
+          <label for="securityCode" class="form-label">驗證碼</label>
+        </div>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/javascripts/new-order.js"></script>

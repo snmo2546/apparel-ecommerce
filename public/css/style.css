@@ -39,3 +39,7 @@ a {
   max-height: 240px;
   object-fit: cover;
 }
+
+.form-control-plaintext:focus {
+  outline: none;
+}

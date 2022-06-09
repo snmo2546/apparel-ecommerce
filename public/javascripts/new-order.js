@@ -1,21 +1,22 @@
 const shipmentMethod = document.getElementById('shipmentMethod')
 const shipmentFee = document.getElementById('shipmentFee')
-const orderTotal = document.getElementById('orderTotal')
 const productTotal = document.getElementById('productTotal')
+const displayTotal = document.getElementById('displayTotal')
+const inputTotal = document.getElementById('inputTotal')
 
 function displayShipmentFee() {
   shipmentFee.innerText = shipmentMethod.value.split('-')[1]
 }
 
-function displayOrderTotal() {
-  const total = Number(productTotal.innerText) + Number(shipmentFee.innerText)
-  orderTotal.innerText = total
+function updateOrderTotal() {
+  displayTotal.innerText = Number(productTotal.innerText) + Number(shipmentFee.innerText)
+  inputTotal.value = Number(productTotal.innerText) + Number(shipmentFee.innerText)
 }
 
 shipmentMethod.addEventListener('change', () => {
   displayShipmentFee()
-  displayOrderTotal()
+  updateOrderTotal()
 })
 
 displayShipmentFee()
-displayOrderTotal()
+updateOrderTotal()
