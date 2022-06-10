@@ -8,7 +8,6 @@ const accountController = {
       where: { userId }
     })
       .then(orders => {
-        console.log(orders)
         return res.render('account/order', { orders })
       })
       .catch(err => next(err))

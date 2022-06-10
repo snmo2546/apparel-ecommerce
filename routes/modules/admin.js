@@ -33,6 +33,8 @@ router.delete('/brands/:id', authenticatedAdmin, brandController.deleteBrand)
 router.post('/brands', authenticatedAdmin, upload.single('image'), brandController.postBrand)
 router.get('/brands', authenticatedAdmin, brandController.getBrands)
 
+router.get('/orders', authenticatedAdmin, adminController.getOrders)
+
 router.get('/index', authenticatedAdmin, adminController.getProducts)
 
 router.get('/', (req, res) => res.redirect('/admin/index'))
