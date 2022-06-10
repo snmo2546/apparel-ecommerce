@@ -47,21 +47,16 @@ const orderController = {
   postPayment: (req, res, next) => {
     const { recipient, phone, email, address, cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
     const { userId } = req.params
+
     return Promise.all([
       ShipmentDetail.create({ recipient, phone, email, address, userId }),
-      PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode, orderId })
+      PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode }),
+      Order.findByPk(orderId)
     ])
-      .then(([shipmentDetail,]) => {
-        return Promise.all([
-          Order.findByPk(orderId),
-          shipmentDetail
-        ])
-      })
-      .then(([order, shipmentDetail]) => {
-        console.log(order)
-        console.log(shipmentDetail)
+      .then(([shipmentDetail, paymentDetail, order]) => {
         return order.update({
-          shipmentDetailId: shipmentDetail.id
+          shipmentDetailId: shipmentDetail.id,
+          paymentDetailId: paymentDetail.id
         })
       })
       .then(() => {

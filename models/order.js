@@ -14,13 +14,14 @@ module.exports = (sequelize, DataTypes) => {
       Order.hasMany(models.OrderedProduct, { foreignKey: 'orderId' })
       Order.belongsTo(models.ShipmentMethod, { foreignKey: 'shipmentMethodId' })
       Order.belongsTo(models.ShipmentDetail, { foreignKey: 'shipmentDetailId' })
-      Order.hasOne(models.PaymentDetail, { foreignKey: 'orderId' })
+      Order.belongsTo(models.PaymentDetail, { foreignKey: 'paymentDetailId' })
     }
   }
   Order.init({
     total: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    shipmentMethodId: DataTypes.INTEGER
+    shipmentMethodId: DataTypes.INTEGER,
+    paymentDetailId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Order',

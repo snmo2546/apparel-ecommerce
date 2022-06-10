@@ -24,6 +24,9 @@ module.exports = {
       },
       shipment_method_id: {
         type: Sequelize.INTEGER
+      },
+      payment_detail_id: {
+        type: Sequelize.INTEGER
       }
     })
   },

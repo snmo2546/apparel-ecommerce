@@ -20,9 +20,6 @@ module.exports = {
       security_code: {
         type: Sequelize.STRING
       },
-      order_id: {
-        type: Sequelize.INTEGER
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

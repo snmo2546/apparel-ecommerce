@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      PaymentDetail.belongsTo(models.Order, { foreignKey: 'orderId' })
+      PaymentDetail.hasOne(models.Order, { foreignKey: 'paymentDetailId' })
     }
   }
   PaymentDetail.init({
@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     cardHolder: DataTypes.STRING,
     expirationDate: DataTypes.STRING,
     securityCode: DataTypes.STRING,
-    orderId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'PaymentDetail',
