@@ -6,9 +6,11 @@ const passport = require('../config/passport')
 const userController = require('../controller/user-controller')
 const productController = require('../controller/product-controller')
 const cartController = require('../controller/cart-controller')
+const orderController = require('../controller/order-controller')
 const admin = require('./modules/admin')
 
 const { generalErrorHandler } = require('../middleware/error-handler')
+const { authenticated } = require('../middleware/auth')
 
 router.use('/admin', admin)
 
@@ -23,10 +25,14 @@ router.get('/products/brands/:brandId', productController.getBrandProd)
 router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
 
-router.post('/cart/:userId', cartController.addToCart)
-router.put('/cart/:userId', cartController.putCartItem)
-router.delete('/cart/:userId', cartController.deleteCartItem)
-router.get('/cart', cartController.getCart)
+router.post('/cart/:userId', authenticated, cartController.addToCart)
+router.put('/cart/:userId', authenticated, cartController.putCartItem)
+router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
+router.get('/cart', authenticated, cartController.getCart)
+
+router.get('/orders/new', authenticated, orderController.getNewOrder)
+router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
+router.post('/orders/:userId', authenticated, orderController.postNewOrder)
 
 router.get('/index', productController.getIndex)
 
