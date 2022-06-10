@@ -43,3 +43,11 @@ a {
 .form-control-plaintext:focus {
   outline: none;
 }
+
+.nav-pills .nav-link.active {
+  background-color: gray;
+}
+
+.nav-pills .nav-link {
+  color: gray;
+}
