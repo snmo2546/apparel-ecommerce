@@ -1,3 +1,5 @@
+const dayjs = require('dayjs')
+
 module.exports = {
   ifCond: function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this)
@@ -12,5 +14,6 @@ module.exports = {
       total += item.amount
     })
     return total
-  }
+  },
+  displayDate: a => dayjs(a).format('YYYY-MM-DD')
 }

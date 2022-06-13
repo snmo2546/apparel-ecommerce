@@ -1,0 +1,34 @@
+<div class="container">
+  {{> navbar}}
+  <div class="d-flex">
+    <nav class="nav nav-pills flex-column col-2">
+      <a class="nav-link active my-2" aria-current="page" href="/accounts/{{user.id}}/orders">訂單</a>
+      <a class="nav-link my-2" href="#">帳號資料</a>
+    </nav>
+    <div class="col-10 ps-5">
+      <h3>Order /</h3>
+      <table class="table text-center" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 10%;">#</th>
+            <th scope="col" style="width: 25%;">日期</th>
+            <th scope="col" style="width: 25%;">訂單狀態</th>
+            <th scope="col" style="width: 25%;">合計</th>
+            <th scope="col" style="width: 15%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each orders}}
+            <tr style="line-height: 3.5em;">
+              <th scope="row"><a href="/accounts/{{../user.id}}/orders/{{this.id}}">{{this.id}}</a></th>
+              <td>{{displayDate this.createdAt}}</td>
+              <td>{{this.status}}</td>
+              <td>NT$ {{this.total}}</td>
+              <td><a href="/accounts/{{../user.id}}/orders/{{this.id}}">查閱</a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

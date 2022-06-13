@@ -1,4 +1,4 @@
-const { Product, Category, Brand } = require('../models')
+const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -110,6 +110,32 @@ const adminController = {
       .then(() => {
         req.flash('success_messages', '成功刪除商品！')
         return res.redirect('/admin/index')
+      })
+      .catch(err => next(err))
+  },
+  getOrders: (req, res, next) => {
+    return Order.findAll({ 
+      raw: true,
+      nest: true,
+      include: [User]
+    })
+      .then(orders => {
+        return res.render('admin/orders', { orders })
+      })
+      .catch(err => next(err))
+  },
+  getOrder: (req, res, next) => {
+    const { orderId } = req.params
+    return Order.findByPk(orderId, {
+      nest: true,
+      include: [
+        { model: OrderedProduct, include: [ Product ] },
+        ShipmentMethod,
+        ShipmentDetail
+      ]
+    })
+      .then(order => {
+        return res.render('admin/order', { order: order.toJSON() })
       })
       .catch(err => next(err))
   }
