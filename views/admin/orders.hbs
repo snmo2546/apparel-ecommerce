@@ -17,12 +17,12 @@
         <tbody>
           {{#each orders}}
             <tr style="line-height: 3.5em;">
-              <th scope="row"><a href="/accounts/{{../user.id}}/orders/{{this.id}}">{{this.id}}</a></th>
+              <th scope="row"><a href="/admin/orders/{{this.id}}">{{this.id}}</a></th>
               <td>{{displayDate this.createdAt}}</td>
               <td>NT$ {{this.total}}</td>
               <td>{{this.User.name}}</td>
               <td>{{this.status}}</td>
-              <td><a href="/accounts/{{user.id}}/orders/{{this.id}}">查閱</a></td>
+              <td><a href="/admin/orders/{{this.id}}">查閱</a></td>
             </tr>
           {{/each}}
         </tbody>

@@ -1,4 +1,4 @@
-const { Product, Category, Brand, Order, User } = require('../models')
+const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -121,6 +121,21 @@ const adminController = {
     })
       .then(orders => {
         return res.render('admin/orders', { orders })
+      })
+      .catch(err => next(err))
+  },
+  getOrder: (req, res, next) => {
+    const { orderId } = req.params
+    return Order.findByPk(orderId, {
+      nest: true,
+      include: [
+        { model: OrderedProduct, include: [ Product ] },
+        ShipmentMethod,
+        ShipmentDetail
+      ]
+    })
+      .then(order => {
+        return res.render('admin/order', { order: order.toJSON() })
       })
       .catch(err => next(err))
   }

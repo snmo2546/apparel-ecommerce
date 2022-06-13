@@ -23,7 +23,6 @@ const accountController = {
       ]
     })
       .then(order => {
-        console.log(order.toJSON())
         return res.render('account/order', { order: order.toJSON() })
       })
       .catch(err => next(err))
