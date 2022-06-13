@@ -120,7 +120,6 @@ const adminController = {
       include: [User]
     })
       .then(orders => {
-        console.log(orders)
         return res.render('admin/orders', { orders })
       })
       .catch(err => next(err))

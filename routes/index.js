@@ -35,6 +35,7 @@ router.get('/orders/new', authenticated, orderController.getNewOrder)
 router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
 router.post('/orders/:userId', authenticated, orderController.postNewOrder)
 
+router.get('/accounts/:userId/orders/:orderId', authenticated, accountController.getOrder)
 router.get('/accounts/:userId/orders', authenticated, accountController.getOrders)
 
 router.get('/index', productController.getIndex)

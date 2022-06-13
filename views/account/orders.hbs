@@ -1,16 +1,19 @@
 <div class="container">
-  {{> admin-navbar}}
-  <div class="d-flex justify-content-center">
-    <div class="w-75">
+  {{> navbar}}
+  <div class="d-flex">
+    <nav class="nav nav-pills flex-column col-2">
+      <a class="nav-link active my-2" aria-current="page" href="#">訂單</a>
+      <a class="nav-link my-2" href="#">帳號資料</a>
+    </nav>
+    <div class="col-10 ps-5">
       <h3>Order /</h3>
       <table class="table text-center" style="width: 100%;">
         <thead>
           <tr>
             <th scope="col" style="width: 10%;">#</th>
-            <th scope="col" style="width: 20%;">日期</th>
-            <th scope="col" style="width: 20%;">合計</th>
-            <th scope="col" style="width: 20%;">用戶</th>
-            <th scope="col" style="width: 15%;">訂單狀態</th>
+            <th scope="col" style="width: 25%;">日期</th>
+            <th scope="col" style="width: 25%;">訂單狀態</th>
+            <th scope="col" style="width: 25%;">合計</th>
             <th scope="col" style="width: 15%;"></th>
           </tr>
         </thead>
@@ -19,10 +22,9 @@
             <tr style="line-height: 3.5em;">
               <th scope="row"><a href="/accounts/{{../user.id}}/orders/{{this.id}}">{{this.id}}</a></th>
               <td>{{displayDate this.createdAt}}</td>
-              <td>NT$ {{this.total}}</td>
-              <td>{{this.User.name}}</td>
               <td>{{this.status}}</td>
-              <td><a href="/accounts/{{user.id}}/orders/{{this.id}}">查閱</a></td>
+              <td>NT$ {{this.total}}</td>
+              <td><a href="/accounts/{{../user.id}}/orders/{{this.id}}">查閱</a></td>
             </tr>
           {{/each}}
         </tbody>

@@ -51,3 +51,15 @@ a {
 .nav-pills .nav-link {
   color: gray;
 }
+
+.order-detail-table th {
+  text-align: left;
+}
+
+.order-detail-table td {
+  text-align: right;
+}
+
+.order-detail-table tr {
+  line-height: 2em;
+}
