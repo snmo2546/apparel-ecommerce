@@ -7,25 +7,6 @@
       <h4 class="text-center"><strong>訂單合計：{{currentOrder.total}}</strong></h4>
       <hr>
       <form action="/orders/payment/{{user.id}}" method="POST">
-        <h5><strong>配送資料</strong></h5>
-        <br>
-        <div class="mb-3">
-          <label for="recipient" class="form-label">收件人姓名</label>
-          <input type="text" class="form-control" name="recipient">
-        </div>
-        <div class="mb-3">
-          <label for="phone" class="form-label">收件人電話</label>
-          <input type="text" class="form-control" name="phone">
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" name="email">
-        </div>
-        <div class="mb-3">
-          <label for="address" class="form-label">收件地址</label>
-          <input type="text" class="form-control" name="address">
-        </div>
-        <hr class="mt-4">
         <h5><strong>付款資料</strong></h5>
         <br>
         <input type="hidden" name="orderId" value="{{currentOrder.id}}">

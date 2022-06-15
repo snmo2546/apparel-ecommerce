@@ -1,26 +1,27 @@
 const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail } = require('../models')
 
 const orderController = {
-  getNewOrder: (req, res, next) => {
+  getCartCheckout: (req, res, next) => {
     return ShipmentMethod.findAll({
       raw: true
     })
       .then(shipmentMethods => {
-        return res.render('new-order', { shipmentMethods })
+        return res.render('cart-checkout', { shipmentMethods })
       })
       .catch(err => next(err))
   },
-  postNewOrder: (req, res, next) => {
+  postOrder: (req, res, next) => {
     const { userId } = req.params
-    const { total } = req.body
+    const { total, recipient, phone, email, address } = req.body
     const shipmentMethodId = req.body.shipmentMethod.split('-')[0]
     return Promise.all([
       Order.create({ userId, total, shipmentMethodId }),
       Cart.findAll({ 
         where: { userId }
-      })
+      }),
+      ShipmentDetail.create({ recipient, phone, email, address, userId })
     ]) 
-      .then(([order, cartItems]) => {
+      .then(([order, cartItems, shipmentDetail]) => {
         const currentOrder = order
         const items = cartItems.map(i => ({
           quantity: i.quantity,
@@ -35,7 +36,8 @@ const orderController = {
           currentOrder,
           Cart.destroy({
             where: { userId }
-          })
+          }),
+          order.update({ shipmentDetailId: shipmentDetail.id })
         ])
       })
       .then(([, currentOrder,]) => {
@@ -45,17 +47,14 @@ const orderController = {
       .catch(err => next(err))
   },
   postPayment: (req, res, next) => {
-    const { recipient, phone, email, address, cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
-    const { userId } = req.params
+    const { cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
 
     return Promise.all([
-      ShipmentDetail.create({ recipient, phone, email, address, userId }),
       PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode }),
       Order.findByPk(orderId)
     ])
-      .then(([shipmentDetail, paymentDetail, order]) => {
+      .then(([paymentDetail, order]) => {
         return order.update({
-          shipmentDetailId: shipmentDetail.id,
           paymentDetailId: paymentDetail.id
         })
       })

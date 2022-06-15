@@ -26,14 +26,14 @@ router.get('/products/brands/:brandId', productController.getBrandProd)
 router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
 
+router.get('/cart/checkout', authenticated, orderController.getCartCheckout)
 router.post('/cart/:userId', authenticated, cartController.addToCart)
 router.put('/cart/:userId', authenticated, cartController.putCartItem)
 router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
 router.get('/cart', authenticated, cartController.getCart)
 
-router.get('/orders/new', authenticated, orderController.getNewOrder)
 router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
-router.post('/orders/:userId', authenticated, orderController.postNewOrder)
+router.post('/orders/:userId', authenticated, orderController.postOrder)
 
 router.get('/accounts/:userId/orders/:orderId', authenticated, accountController.getOrder)
 router.get('/accounts/:userId/orders', authenticated, accountController.getOrders)
