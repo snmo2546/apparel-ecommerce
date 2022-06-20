@@ -97,7 +97,7 @@ const orderController = {
   putPaymentStatus: (req, res, next) => {
     const { RtnCode } = req.body
     const { userId, orderId } = req.params
-
+    console.log(req.body)
     return Order.findByPk(orderId)
       .then(order => {
         if (!order) throw new Error("Order doesn't exist!")
