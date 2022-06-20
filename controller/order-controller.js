@@ -82,16 +82,31 @@ const orderController = {
           items.push(itemDetail)
         })
         const data = {
-          MerchantTradeNo: 'apparelTest' + order.id,
+          MerchantTradeNo: 'apparelTest' + order.id + Math.floor(Math.random() * 10000).toString(),
           MerchantTradeDate: order.createdAt,
           TotalAmount: order.total,
           ItemName: items.join('#'),
           ReturnURL: 'https://11c9-27-240-209-152.jp.ngrok.io/index',
-          OrderResultURL: 'https://11c9-27-240-209-152.jp.ngrok.io/index'
+          OrderResultURL: `https://11c9-27-240-209-152.jp.ngrok.io/orders/${userId}/${orderId}/result`
         }
 
         return res.send(ecpayCredit(data)) 
       })
+      .catch(err => next(err))
+  },
+  putPaymentStatus: (req, res, next) => {
+    const { RtnCode } = req.body
+    const { userId, orderId } = req.params
+
+    return Order.findByPk(orderId)
+      .then(order => {
+        if (!order) throw new Error("Order doesn't exist!")
+
+        return order.update({
+          paymentStatus: RtnCode
+        })
+      })
+      .then(() => res.redirect(`/accounts/${userId}/orders`))
       .catch(err => next(err))
   }
 }
