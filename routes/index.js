@@ -35,6 +35,7 @@ router.get('/cart', authenticated, cartController.getCart)
 router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
 router.post('/orders/:userId/:orderId/result', authenticated, orderController.putPaymentStatus)
 router.get('/orders/:userId/:orderId/payment', authenticated, orderController.getPayment)
+router.get('/orders/:userId/:orderId/ecpay', authenticated, orderController.getEcpay)
 router.post('/orders/:userId', authenticated, orderController.postOrder)
 
 router.get('/accounts/:userId/orders/:orderId', authenticated, accountController.getOrder)

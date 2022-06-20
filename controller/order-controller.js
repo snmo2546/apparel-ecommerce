@@ -66,7 +66,7 @@ const orderController = {
       })
       .catch(err => next(err))
   },
-  getPayment: (req, res, next) => {
+  getEcpay: (req, res, next) => {
     const { userId, orderId } = req.params
     return Order.findByPk(orderId, {
       nest: true,
@@ -107,6 +107,19 @@ const orderController = {
         })
       })
       .then(() => res.redirect(`/accounts/${userId}/orders`))
+      .catch(err => next(err))
+  },
+  getPayment: (req, res, next) => {
+    const { userId, orderId } = req.params
+    return Order.findByPk(orderId, {
+      nest: true,
+      include: [ShipmentDetail]
+    })
+      .then(order => {
+        if (!order) throw new Error("Order doesn't exist!")
+        console.log(order.ShipmentDetail.toJSON())
+        return res.render('order-notification', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
+      })
       .catch(err => next(err))
   }
 }

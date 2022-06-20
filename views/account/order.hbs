@@ -44,8 +44,12 @@
           </tr>
           <tr>
             <th scope="row">訂單狀態：</th>
-            {{#ifCond order.paymentStatus '1'}}<td>已付款</td>{{/ifCond}}
-            {{#ifCond order.paymentStatus '0'}}<td>未付款</td>{{/ifCond}}
+            <td>
+              {{#ifCond order.paymentStatus '1'}}已付款{{/ifCond}}
+              {{#ifCond order.paymentStatus '0'}}
+                <a href="/orders/{{user.id}}/{{order.id}}/payment" class="text-secondary">待付款</a>
+              {{/ifCond}}
+            </td>
             </tr>
         </tfoot>
       </table>
