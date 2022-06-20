@@ -1,0 +1,18 @@
+<div class="container">
+  {{> navbar}}
+  <div class="d-flex justify-content-center">
+    <div class="w-50">
+      <h3>訂單 #{{currentOrder.id}} 已成立！</h3>
+      <hr>
+      <div class="d-flex flex-column">
+        <div>
+          <h5 class="mb-3">訂單金額：NT$ {{currentOrder.total}}</h5>
+          <h5 class="mb-3">收件人：{{shipmentDetail.recipient}}</h5>
+          <h5 class="mb-3">收件地址：{{shipmentDetail.address}}</h5>
+        </div>
+        <a href="/orders/{{user.id}}/{{currentOrder.id}}/payment" class="btn btn-outline-secondary">前往付款</a>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
-const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail } = require('../models')
+const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product } = require('../models')
+const { ecpayCredit } = require('../utils/ecpay')
 
 const orderController = {
   getCartCheckout: (req, res, next) => {
@@ -34,15 +35,16 @@ const orderController = {
         return Promise.all([
           OrderedProduct.bulkCreate(items),
           currentOrder,
+          shipmentDetail,
           Cart.destroy({
             where: { userId }
           }),
           order.update({ shipmentDetailId: shipmentDetail.id })
         ])
       })
-      .then(([, currentOrder,]) => {
+      .then(([, currentOrder, shipmentDetail,]) => {
         req.flash('success_messages', '成功下單！')
-        return res.render('payment', { currentOrder: currentOrder.toJSON() })
+        return res.render('order-notification', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
       })
       .catch(err => next(err))
   },
@@ -61,6 +63,34 @@ const orderController = {
       .then(() => {
         req.flash('success_messages', '付款已完成！')
         return res.redirect('/index')
+      })
+      .catch(err => next(err))
+  },
+  getPayment: (req, res, next) => {
+    const { userId, orderId } = req.params
+    return Order.findByPk(orderId, {
+      nest: true,
+      include: [ 
+        { model: OrderedProduct, include: [ Product ] }
+      ]
+    })
+      .then(order => {
+        if (!order) throw new Error("Order doesn't exist!")
+        let items = []
+        order.OrderedProducts.forEach(item => {
+          const itemDetail = item.Product.name + '  x' + item.quantity.toString()
+          items.push(itemDetail)
+        })
+        const data = {
+          MerchantTradeNo: 'apparelTest' + order.id,
+          MerchantTradeDate: order.createdAt,
+          TotalAmount: order.total,
+          ItemName: items.join('#'),
+          ReturnURL: 'https://11c9-27-240-209-152.jp.ngrok.io/index',
+          OrderResultURL: 'https://11c9-27-240-209-152.jp.ngrok.io/index'
+        }
+
+        return res.send(ecpayCredit(data)) 
       })
       .catch(err => next(err))
   }
