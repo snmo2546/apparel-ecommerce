@@ -40,7 +40,8 @@
           </tr>
           <tr>
             <th scope="row">訂單狀態：</th>
-            <td>{{order.status}}</td>
+            {{#ifCond order.paymentStatus '1'}}<td>已付款</td>{{/ifCond}}
+            {{#ifCond order.paymentStatus '0'}}<td>未付款</td>{{/ifCond}}
           </tr>
         </tfoot>
       </table>

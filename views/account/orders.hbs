@@ -22,7 +22,8 @@
             <tr style="line-height: 3.5em;">
               <th scope="row"><a href="/accounts/{{../user.id}}/orders/{{this.id}}">{{this.id}}</a></th>
               <td>{{displayDate this.createdAt}}</td>
-              <td>{{this.status}}</td>
+              {{#ifCond this.paymentStatus '1'}}<td>已付款</td>{{/ifCond}}
+              {{#ifCond this.paymentStatus '0'}}<td>未付款</td>{{/ifCond}}
               <td>NT$ {{this.total}}</td>
               <td><a href="/accounts/{{../user.id}}/orders/{{this.id}}">查閱</a></td>
             </tr>
