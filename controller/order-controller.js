@@ -117,7 +117,7 @@ const orderController = {
     })
       .then(order => {
         if (!order) throw new Error("Order doesn't exist!")
-        console.log(order.ShipmentDetail.toJSON())
+
         return res.render('order-notification', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
       })
       .catch(err => next(err))
