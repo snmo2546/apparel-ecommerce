@@ -44,7 +44,7 @@ const orderController = {
       })
       .then(([, currentOrder, shipmentDetail,]) => {
         req.flash('success_messages', '成功下單！')
-        return res.render('order-notification', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
+        return res.render('payment', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
       })
       .catch(err => next(err))
   },
@@ -118,7 +118,7 @@ const orderController = {
       .then(order => {
         if (!order) throw new Error("Order doesn't exist!")
 
-        return res.render('order-notification', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
+        return res.render('payment', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
       })
       .catch(err => next(err))
   }
