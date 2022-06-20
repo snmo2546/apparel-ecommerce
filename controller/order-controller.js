@@ -86,7 +86,7 @@ const orderController = {
           MerchantTradeDate: order.createdAt,
           TotalAmount: order.total,
           ItemName: items.join('#'),
-          ReturnURL: 'https://11c9-27-240-209-152.jp.ngrok.io/index',
+          ReturnURL: 'https://11c9-27-240-209-152.jp.ngrok.io/',
           OrderResultURL: `https://11c9-27-240-209-152.jp.ngrok.io/orders/${userId}/${orderId}/result`
         }
 

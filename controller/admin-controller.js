@@ -117,7 +117,8 @@ const adminController = {
     return Order.findAll({ 
       raw: true,
       nest: true,
-      include: [User]
+      include: [User],
+      order: [['createdAt', 'DESC']]
     })
       .then(orders => {
         return res.render('admin/orders', { orders })
