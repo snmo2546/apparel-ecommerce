@@ -94,16 +94,25 @@ const orderController = {
       })
       .catch(err => next(err))
   },
-  putPaymentStatus: (req, res, next) => {
-    const { RtnCode } = req.body
+  putPaymentInfo: (req, res, next) => {
+    const { RtnCode, PaymentDate, PaymentType, PaymentTypeChargeFee, TradeAmt } = req.body
     const { userId, orderId } = req.params
     console.log(req.body)
-    return Order.findByPk(orderId)
-      .then(order => {
+    return Promise.all([
+      Order.findByPk(orderId),
+      PaymentDetail.create({
+        paymentDate: PaymentDate,
+        paymentType: PaymentType,
+        paymentTypeChargeFee: PaymentTypeChargeFee,
+        tradeAmt: TradeAmt
+      })
+    ])
+      .then(([order, paymentDetail]) => {
         if (!order) throw new Error("Order doesn't exist!")
 
         return order.update({
-          paymentStatus: RtnCode
+          paymentStatus: RtnCode,
+          paymentDetailId: paymentDetail.id
         })
       })
       .then(() => res.redirect(`/accounts/${userId}/orders`))
