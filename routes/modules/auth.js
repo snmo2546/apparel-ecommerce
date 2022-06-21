@@ -12,4 +12,13 @@ router.get('/facebook/callback', passport.authenticate('facebook', {
   failureRedirect: '/signin'
 }))
 
+router.get('/google', passport.authenticate('google', {
+  scope: ['email']
+}))
+
+router.get('/google/callback', passport.authenticate('google', {
+  successRedirect: '/index',
+  failureRedirect: '/signin'
+}))
+
 module.exports = router
