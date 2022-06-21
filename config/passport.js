@@ -60,7 +60,6 @@ passport.use(new GoogleStrategy(
     callbackURL: process.env.GOOGLE_CALLBACK,
     profileFields: ['email', 'displayName']
   }, (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
     const { email } = profile._json
     User.findOne({ where: { email } })
       .then(user => {
