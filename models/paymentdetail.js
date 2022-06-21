@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PaymentDetail.init({
-    cardNumber: DataTypes.STRING,
-    cardHolder: DataTypes.STRING,
-    expirationDate: DataTypes.STRING,
-    securityCode: DataTypes.STRING,
+    paymentType: DataTypes.STRING,
+    paymentDate: DataTypes.STRING,
+    paymentTypeChargeFee: DataTypes.STRING,
+    tradeAmt: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'PaymentDetail',

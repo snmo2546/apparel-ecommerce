@@ -21,7 +21,8 @@
               <td>{{displayDate this.createdAt}}</td>
               <td>NT$ {{this.total}}</td>
               <td>{{this.User.name}}</td>
-              <td>{{this.status}}</td>
+              {{#ifCond this.paymentStatus '1'}}<td>已付款</td>{{/ifCond}}
+              {{#ifCond this.paymentStatus '0'}}<td>未付款</td>{{/ifCond}}
               <td><a href="/admin/orders/{{this.id}}">查閱</a></td>
             </tr>
           {{/each}}

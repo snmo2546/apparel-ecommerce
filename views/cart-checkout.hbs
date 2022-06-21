@@ -1,0 +1,66 @@
+<div class="container">
+  {{> navbar}}
+  <div class="d-flex justify-content-center">
+    <div class="w-50">
+      <h3>確認訂單 Confirmation</h3>
+      <hr>
+      <h4 class="mt-4">商品明細</h4>
+      {{> cart-item-table}}
+      <div class="row d-flex">
+        <form action="/orders/{{user.id}}" method="POST" class="d-flex mt-4">
+          <div class="form-row w-50 pe-3">
+            <h4>配送資訊</h4>
+            <hr>
+            <div>
+              <label for="shipmentMethod" class="form-label">運送方式</label>
+              <select class="form-select mb-3" name="shipmentMethod" id="shipmentMethod">
+                {{#each shipmentMethods}}
+                  <option value="{{this.id}}-{{this.fee}}">{{this.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="recipient" placeholder="recipient" required>
+              <label for="recipient" class="form-label">收件人姓名</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="phone" placeholder="phone">
+              <label for="phone" class="form-label">電話</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="email" placeholder="email">
+              <label for="email" class="form-label">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="address" placeholder="address" required>
+              <label for="address" class="form-label">住址</label>
+            </div>
+          </div>
+          <input type="hidden" name="total" id="inputTotal">
+          <div class="w-50 ps-3">
+            <h4>訂單資訊</h4>
+            <hr>
+            <div class="d-flex justify-content-between">
+              <span>小計：</span>
+              <span id="productTotal">{{calculateCartTotal user.Carts}}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>運費：</span>
+              <span id="shipmentFee"></span>
+            </div>
+            <br>
+            <div class="d-flex justify-content-between">
+              <strong>合計：</strong>
+              <span id="displayTotal"></span>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="submit" class="btn btn-secondary">送出訂單</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/javascripts/new-order.js"></script>

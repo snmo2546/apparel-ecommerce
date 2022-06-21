@@ -63,3 +63,8 @@ a {
 .order-detail-table tr {
   line-height: 2em;
 }
+
+.form-signin input:focus {
+  border-color: gray;
+  box-shadow: 0 0 0 0.25rem #DCDCDC;
+}

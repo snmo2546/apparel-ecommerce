@@ -7,7 +7,8 @@ const accountController = {
     if (Number(userId) !== helpers.getUser(req).id) throw new Error("Can't access other's orders!")
     return Order.findAll({
       raw: true,
-      where: { userId }
+      where: { userId },
+      order: [['createdAt', 'DESC']]
     })
       .then(orders => {
         return res.render('account/orders', { orders })

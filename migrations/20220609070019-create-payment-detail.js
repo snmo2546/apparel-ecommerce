@@ -8,16 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      card_number: {
+      payment_type: {
         type: Sequelize.STRING
       },
-      card_holder: {
+      payment_date: {
         type: Sequelize.STRING
       },
-      expiration_date: {
+      payment_type_charge_fee: {
         type: Sequelize.STRING
       },
-      security_code: {
+      trade_amt: {
         type: Sequelize.STRING
       },
       created_at: {
