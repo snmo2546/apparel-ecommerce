@@ -8,12 +8,15 @@ const productController = require('../controller/product-controller')
 const cartController = require('../controller/cart-controller')
 const orderController = require('../controller/order-controller')
 const accountController = require('../controller/account-controller')
+
 const admin = require('./modules/admin')
+const auth = require('./modules/auth')
 
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticated } = require('../middleware/auth')
 
 router.use('/admin', admin)
+router.use('/auth', auth)
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)

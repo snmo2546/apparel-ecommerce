@@ -86,18 +86,31 @@ const orderController = {
           MerchantTradeDate: order.createdAt,
           TotalAmount: order.total,
           ItemName: items.join('#'),
-          ReturnURL: 'https://11c9-27-240-209-152.jp.ngrok.io/',
-          OrderResultURL: `https://11c9-27-240-209-152.jp.ngrok.io/orders/${userId}/${orderId}/result`
+          ReturnURL: process.env.WEBSITE_URL,
+          OrderResultURL: process.env.WEBSITE_URL + `/orders/${userId}/${orderId}/result`
         }
 
         return res.send(ecpayCredit(data)) 
       })
       .catch(err => next(err))
   },
+  getPayment: (req, res, next) => {
+    const { orderId } = req.params
+    return Order.findByPk(orderId, {
+      nest: true,
+      include: [ShipmentDetail]
+    })
+      .then(order => {
+        if (!order) throw new Error("Order doesn't exist!")
+
+        return res.render('payment', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
+      })
+      .catch(err => next(err))
+  },
   putPaymentInfo: (req, res, next) => {
     const { RtnCode, PaymentDate, PaymentType, PaymentTypeChargeFee, TradeAmt } = req.body
     const { userId, orderId } = req.params
-    console.log(req.body)
+
     return Promise.all([
       Order.findByPk(orderId),
       PaymentDetail.create({
@@ -116,19 +129,6 @@ const orderController = {
         })
       })
       .then(() => res.redirect(`/accounts/${userId}/orders`))
-      .catch(err => next(err))
-  },
-  getPayment: (req, res, next) => {
-    const { userId, orderId } = req.params
-    return Order.findByPk(orderId, {
-      nest: true,
-      include: [ShipmentDetail]
-    })
-      .then(order => {
-        if (!order) throw new Error("Order doesn't exist!")
-
-        return res.render('payment', { currentOrder: order.toJSON(), shipmentDetail: order.ShipmentDetail.toJSON() })
-      })
       .catch(err => next(err))
   }
 }
