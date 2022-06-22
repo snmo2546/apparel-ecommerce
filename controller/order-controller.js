@@ -1,5 +1,6 @@
 const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product } = require('../models')
 const { ecpayCredit } = require('../utils/ecpay')
+const { sendMail, orderConfirmMail, paymentConfirmMail } = require('../utils/mail')
 
 const orderController = {
   getCartCheckout: (req, res, next) => {
@@ -43,8 +44,12 @@ const orderController = {
         ])
       })
       .then(([, currentOrder, shipmentDetail,]) => {
+        const mailContent = orderConfirmMail(currentOrder.toJSON(), shipmentDetail.toJSON(), 'unpaid')        
         req.flash('success_messages', '成功下單！')
-        return res.render('payment', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
+        return Promise.all([
+          sendMail(req.user.email, mailContent),
+          res.render('payment', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
+        ])
       })
       .catch(err => next(err))
   },
@@ -112,7 +117,9 @@ const orderController = {
     const { userId, orderId } = req.params
 
     return Promise.all([
-      Order.findByPk(orderId),
+      Order.findByPk(orderId, {
+        include: [ShipmentDetail]
+      }),
       PaymentDetail.create({
         paymentDate: PaymentDate,
         paymentType: PaymentType,
@@ -121,12 +128,15 @@ const orderController = {
       })
     ])
       .then(([order, paymentDetail]) => {
+        const mailContent = paymentConfirmMail(order.toJSON(), paymentDetail.toJSON())
         if (!order) throw new Error("Order doesn't exist!")
-
-        return order.update({
-          paymentStatus: RtnCode,
-          paymentDetailId: paymentDetail.id
-        })
+        return Promise.all([
+          sendMail(req.user.email, mailContent),
+          order.update({
+            paymentStatus: RtnCode,
+            paymentDetailId: paymentDetail.id
+          })
+        ]) 
       })
       .then(() => res.redirect(`/accounts/${userId}/orders`))
       .catch(err => next(err))
