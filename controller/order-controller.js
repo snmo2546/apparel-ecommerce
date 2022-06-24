@@ -1,4 +1,4 @@
-const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product } = require('../models')
+const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product, CartItem } = require('../models')
 const { ecpayCredit } = require('../utils/ecpay')
 const { sendMail, orderConfirmMail, paymentConfirmMail } = require('../utils/mail')
 
@@ -18,14 +18,15 @@ const orderController = {
     const shipmentMethodId = req.body.shipmentMethod.split('-')[0]
     return Promise.all([
       Order.create({ userId, total, shipmentMethodId }),
-      Cart.findAll({ 
-        where: { userId }
+      Cart.findOne({ 
+        where: { userId },
+        include: [CartItem]
       }),
       ShipmentDetail.create({ recipient, phone, email, address, userId })
     ]) 
-      .then(([order, cartItems, shipmentDetail]) => {
+      .then(([order, cart, shipmentDetail]) => {
         const currentOrder = order
-        const items = cartItems.map(i => ({
+        const items = cart.CartItems.map(i => ({
           quantity: i.quantity,
           amount: i.amount,
           productId: i.productId,
@@ -37,8 +38,8 @@ const orderController = {
           OrderedProduct.bulkCreate(items),
           currentOrder,
           shipmentDetail,
-          Cart.destroy({
-            where: { userId }
+          CartItem.destroy({
+            where: { cartId: cart.id }
           }),
           order.update({ shipmentDetailId: shipmentDetail.id })
         ])

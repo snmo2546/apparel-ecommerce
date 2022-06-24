@@ -32,7 +32,7 @@ router.get('/products/:id', productController.getProduct)
 router.get('/cart/checkout', authenticated, orderController.getCartCheckout)
 router.put('/cart/:userId', authenticated, cartController.putCartItem)
 router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
-router.post('/cart/', cartController.postCart)
+router.post('/cart/:userId', cartController.postCart)
 router.get('/cart', cartController.getCart)
 
 router.post('/orders/payment/:userId', authenticated, orderController.postPayment)

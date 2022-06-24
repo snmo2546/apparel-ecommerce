@@ -69,9 +69,9 @@ const cartController = {
     }
   },
   deleteCartItem: (req, res, next) => {
-    if (Number(req.params.userId) !== helpers.getUser(req).id) throw new Error("Can't edit others cart")
+    if (helpers.getUser(req) && Number(req.params.userId) !== helpers.getUser(req).id) throw new Error("Can't edit others cart")
     const { cartItemId } = req.body
-    return Cart.findByPk(cartItemId)
+    return CartItem.findByPk(cartItemId)
       .then(cartItem => {
         if (!cartItem) throw new Error("Item doesn't exist in cart!")
 
@@ -86,7 +86,7 @@ const cartController = {
   putCartItem: (req, res, next) => {
     const { id, change } = req.body
 
-    return Cart.findByPk(id, {
+    return CartItem.findByPk(id, {
       include: [Product]
     })
       .then(cartItem => {

@@ -89,7 +89,10 @@ passport.deserializeUser((id, cb) => {
       { model: Cart, include: [{ model: CartItem, include: [ Product ]  }] }
     ]
   })
-    .then(user => cb(null, user.toJSON()))
+    .then(user => {
+      cb(null, user.toJSON())
+      // console.log(user.toJSON().Cart.CartItems)
+    })
     .catch(err => cb(err))
 })
 module.exports = passport
