@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Product.hasMany(models.OrderedProduct, { foreignKey: 'productId' })
-      Product.hasMany(models.Cart, { foreignKey: 'productId' })
+      Product.hasMany(models.CartItem, { foreignKey: 'productId' })
       Product.hasMany(models.Favorite, { foreignKey: 'productId' })
       Product.belongsTo(models.Category, { foreignKey: 'categoryId' })
       Product.belongsTo(models.Brand, { foreignKey: 'brandId' })

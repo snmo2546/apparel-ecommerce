@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     {{#if user}}
-      {{#each user.Carts}}
+      {{#each user.Cart.CartItems}}
         <tr>
           <th scope="row">
             <a href="/products/{{this.Product.id}}">

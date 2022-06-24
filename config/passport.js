@@ -4,7 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const bcrypt = require('bcryptjs')
 
-const { User, Cart, Product } = require('../models')
+const { User, Cart, Product, CartItem } = require('../models')
 
 passport.use(new LocalStrategy(
   {
@@ -86,10 +86,13 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((id, cb) => {
   return User.findByPk(id, {
     include: [
-      { model: Cart, include: Product }
+      { model: Cart, include: [{ model: CartItem, include: [ Product ]  }] }
     ]
   })
-    .then(user => cb(null, user.toJSON()))
+    .then(user => {
+      cb(null, user.toJSON())
+      // console.log(user.toJSON().Cart.CartItems)
+    })
     .catch(err => cb(err))
 })
 module.exports = passport
