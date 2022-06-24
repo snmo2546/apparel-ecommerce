@@ -30,10 +30,10 @@ router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
 
 router.get('/cart/checkout', authenticated, orderController.getCartCheckout)
-router.post('/cart/:userId', authenticated, cartController.addToCart)
 router.put('/cart/:userId', authenticated, cartController.putCartItem)
 router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
-router.get('/cart', authenticated, cartController.getCart)
+router.post('/cart/', cartController.postCart)
+router.get('/cart', cartController.getCart)
 
 router.post('/orders/payment/:userId', authenticated, orderController.postPayment)
 router.post('/orders/:userId/:orderId/result', authenticated, orderController.putPaymentInfo)

@@ -12,7 +12,9 @@ const productController = {
       Category.findAll({ raw: true }),
       Brand.findAll({ raw: true })
     ])   
-      .then(([products, categories, brands]) => res.render('index', { products, categories, brands }))
+      .then(([products, categories, brands]) => {
+        res.render('index', { products, categories, brands })
+      })
       .catch(err => next(err))
   },
   getProduct: (req, res, next) => {

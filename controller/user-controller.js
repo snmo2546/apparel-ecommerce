@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User } = db
+const { User, Cart } = db
 
 const userController = {
   signUpPage: (req, res) => {
@@ -21,6 +21,11 @@ const userController = {
         email,
         password: hash
       }))
+      .then(user => {
+        Cart.create({
+          userId: user.id
+        })
+      })
       .then(() => {
         req.flash('success_messages', '成功註冊帳號！')
         return res.redirect('/')
