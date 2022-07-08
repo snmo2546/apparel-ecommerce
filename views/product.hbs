@@ -10,10 +10,22 @@
       <p>NT$ {{product.price}}</p>
       <p>Brand：{{product.Brand.name}}</p>
       <p>
-        <form action="/cart/{{user.id}}" method="post">
+        <form {{#if user}}action="/cart/{{user.id}}"{{else}}action="/cart/0"{{/if}} method="post">
           <input type="hidden" name="productId" value="{{product.id}}">
           <input type="hidden" name="price" value="{{product.price}}">
-          <button type="submit" class="btn btn-secondary">Add to Cart</button>
+          <div class="mb-3">
+            <label class="form-label" for="size">尺寸</label>
+            <select class="form-select" name="size" id="size">
+              {{#each product.Stocks}}
+                <option value="{{this.size}}">{{this.size}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="quantity">數量</label>
+            <input class="form-control" name="quantity" id="quantity" type="text" value="1">
+          </div>
+          <button type="submit" class="btn btn-secondary mt-3">Add to Cart</button>
         </form>
       </p>
       <p>

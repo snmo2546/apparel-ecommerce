@@ -6,7 +6,7 @@ const cartController = {
     return res.render('cart')
   },
   postCart: (req, res, next) => {
-    const { productId, price } = req.body
+    const { productId, price, color, size } = req.body
 
     if (!helpers.getUser(req)) {
       return Cart.findOrCreate({
@@ -21,20 +21,25 @@ const cartController = {
             CartItem.findOrCreate({
               where: {
                 cartId: cart.id,
-                productId
+                productId,
+                color: color || null,
+                size: size || null
               },
               defaults: {
                 cartId: cart.id,
                 productId,
                 amount: price,
-                quantity: 0
+                quantity: 0,
+                color: color || null,
+                size: size || null
               }
             })
           ])
         })
         .then(([, [cartItem]]) => {
           return cartItem.update({
-            quantity: cartItem.quantity += 1
+            quantity: cartItem.quantity += 1,
+            amount: price * cartItem.quantity
           })
         })
         .then(() => {
@@ -47,18 +52,23 @@ const cartController = {
       return CartItem.findOrCreate({
             where: {
               cartId: cart.id,
-              productId
+              productId,
+              color: color || null,
+              size: size || null
             },
             defaults: {
               cartId: cart.id,
               productId,
               amount: price,
-              quantity: 0
+              quantity: 0,
+              color: color || null,
+              size: size || null
             }
           })
         .then(([cartItem]) => {
           return cartItem.update({
-            quantity: cartItem.quantity += 1
+            quantity: cartItem.quantity += 1,
+            amount: price * cartItem.quantity
           })
         })
         .then(() => {

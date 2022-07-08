@@ -1,4 +1,4 @@
-const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct } = require('../models')
+const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct, Stock } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -25,9 +25,9 @@ const adminController = {
       .catch(err => next(err))
   },
   postProduct: (req, res, next) => {
-    const { name, price, description, categoryId, brandId } = req.body
+    const { name, price, description, categoryId, brandId, color, size, quantity } = req.body
     const { file } = req
-
+  
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
 
@@ -40,6 +40,14 @@ const adminController = {
         categoryId,
         brandId
       }))
+      .then(product => {
+        Stock.create({
+          productId: product.id,
+          color,
+          size,
+          quantity
+        })
+      })
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
         return res.redirect('/admin/index')

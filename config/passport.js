@@ -91,7 +91,7 @@ passport.deserializeUser((id, cb) => {
   })
     .then(user => {
       cb(null, user.toJSON())
-      // console.log(user.toJSON().Cart.CartItems)
+      // console.log(user.toJSON())
     })
     .catch(err => cb(err))
 })

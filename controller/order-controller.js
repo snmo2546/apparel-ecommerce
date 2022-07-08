@@ -31,6 +31,8 @@ const orderController = {
           amount: i.amount,
           productId: i.productId,
           orderId: order.id,
+          color: i.color,
+          size: i.size,
           createdAt: new Date(),
           updatedAt: new Date()
         }))
