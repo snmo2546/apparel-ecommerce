@@ -42,5 +42,38 @@
         </tr>
       {{/each}}
     {{/if}}
+    {{#if cart}}
+      {{#each cart.CartItems}}
+        <tr>
+          <th scope="row">
+            <a href="/products/{{this.Product.id}}">
+              <img src="{{this.Product.image}}" class="cartItemImage me-1">
+              <span>{{this.Product.name}}</span>
+            </a>
+          </th>
+          <td>NT$ {{this.Product.price}}</td>
+          <td>
+            <form action="/cart/{{#if ../user}}{{../user.id}}{{else}}0{{/if}}?_method=PUT" method="POST" style="display: inline;">
+              <input type="hidden" name="id" value="{{this.id}}">
+              <input type="hidden" name="change" value="decrease">
+              <button type="submit" class="quantity-decrease-button"> <&ensp; </button>
+            </form>
+            <span hidden>{{this.id}}</span>
+            <span> {{this.quantity}} </span>
+            <form action="/cart/{{#if ../user}}{{../user.id}}{{else}}0{{/if}}?_method=PUT" method="POST" style="display: inline;">
+              <input type="hidden" name="id" value="{{this.id}}">
+              <input type="hidden" name="change" value="increase">
+              <button type="submit" class="quantity-increase-button"> &ensp;> </button>
+            </form>                </td>
+          <td>NT$ {{this.amount}}</td>
+          <td>
+            <form action="/cart/{{#if ../user}}{{../user.id}}{{else}}0{{/if}}?_method=DELETE" method="POST">
+              <input type="hidden" name="cartItemId" value="{{this.id}}">
+              <button type="submit" class="btn cart-delete-button">刪除</button>                  
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    {{/if}}
   </tbody>
 </table>

@@ -2,11 +2,28 @@ const { Product, Cart, CartItem } = require('../models')
 const helpers = require('../helpers/auth-helpers')
 
 const cartController = {
-  getCart: (req, res) => {
+  getCart: (req, res, next) => {
+    if (!helpers.getUser(req)) {
+      if (req.session.cartId) {
+        const cartId = req.session.cartId
+        return Cart.findByPk(cartId, {
+          nest: true,
+          include: [
+            { model: CartItem, include: [Product] }
+          ]
+        })
+          .then(cart => {
+            return res.render('cart', { cart: cart.toJSON() })
+          })
+          .catch(err => next(err))
+      }
+    }
     return res.render('cart')
   },
   postCart: (req, res, next) => {
     const { productId, price, color, size } = req.body
+    let cartItems = req.session.cartItems || []
+    cartItems.push(productId)
 
     if (!helpers.getUser(req)) {
       return Cart.findOrCreate({
@@ -16,6 +33,7 @@ const cartController = {
       })
         .then(([cart]) => {
           req.session.cartId = cart.toJSON().id
+          req.session.cartItems = cartItems
           return Promise.all([
             req.session.save(),
             CartItem.findOrCreate({
@@ -81,9 +99,13 @@ const cartController = {
   deleteCartItem: (req, res, next) => {
     if (helpers.getUser(req) && Number(req.params.userId) !== helpers.getUser(req).id) throw new Error("Can't edit others cart")
     const { cartItemId } = req.body
+
     return CartItem.findByPk(cartItemId)
       .then(cartItem => {
         if (!cartItem) throw new Error("Item doesn't exist in cart!")
+        if (req.session.cartItems) {
+          req.session.cartItems.splice(req.session.cartItems.indexOf(cartItem.productId), 1)
+        }
 
         return cartItem.destroy()
       })

@@ -10,7 +10,7 @@
       <p>NT$ {{product.price}}</p>
       <p>Brand：{{product.Brand.name}}</p>
       <p>
-        <form {{#if user}}action="/cart/{{user.id}}"{{else}}action="/cart/0"{{/if}} method="post">
+        <form action="/cart/{{#if user}}{{user.id}}{{else}}0{{/if}}" method="post">
           <input type="hidden" name="productId" value="{{product.id}}">
           <input type="hidden" name="price" value="{{product.price}}">
           <div class="mb-3">

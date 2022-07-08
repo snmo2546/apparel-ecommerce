@@ -30,8 +30,8 @@ router.get('/products/new', productController.getNewIn)
 router.get('/products/:id', productController.getProduct)
 
 router.get('/cart/checkout', authenticated, orderController.getCartCheckout)
-router.put('/cart/:userId', authenticated, cartController.putCartItem)
-router.delete('/cart/:userId', authenticated, cartController.deleteCartItem)
+router.put('/cart/:userId', cartController.putCartItem)
+router.delete('/cart/:userId', cartController.deleteCartItem)
 router.post('/cart/:userId', cartController.postCart)
 router.get('/cart', cartController.getCart)
 

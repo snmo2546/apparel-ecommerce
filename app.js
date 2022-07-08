@@ -37,6 +37,7 @@ app.use((req, res, next) => {
   res.locals.error_messages = req.flash('error_messages')
   res.locals.isAuthenticated = helpers.ensureAuthenticated(req)
   res.locals.user = helpers.getUser(req)
+  res.locals.guestCart = req.session.cartItems || null
   next()
 })
 
