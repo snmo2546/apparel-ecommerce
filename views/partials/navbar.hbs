@@ -50,7 +50,7 @@
         {{/if}}
         <li class="nav-item ms-3">
           <a class="nav-link" href="/cart">
-            Cart({{#if guestCart}}{{arrayLength guestCart}}{{else}}{{arrayLength user.Cart.CartItems}}{{/if}})
+            Cart({{#if user}}{{arrayLength user.Cart.CartItems}}{{else}}{{arrayLength guestCart}}{{/if}})
           </a>
         </li>
       </ul>

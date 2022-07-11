@@ -1,4 +1,4 @@
-const { Product, Cart, CartItem } = require('../models')
+const { Product, Cart, CartItem, Stock } = require('../models')
 const helpers = require('../helpers/auth-helpers')
 
 const cartController = {
@@ -21,42 +21,67 @@ const cartController = {
     return res.render('cart')
   },
   postCart: (req, res, next) => {
-    const { productId, price, color, size } = req.body
+    const { productId, price, quantity, size } = req.body
     let cartItems = req.session.cartItems || []
-    cartItems.push(productId)
 
     if (!helpers.getUser(req)) {
-      return Cart.findOrCreate({
-        where: {
-          id: req.session.cartId || 0
-        }
-      })
-        .then(([cart]) => {
+      return Promise.all([
+        // Create cart if the user doesn't have one
+        Cart.findOrCreate({
+          where: {
+            id: req.session.cartId || 0
+          }
+        }),
+        // Query the product's stock amount
+        Stock.findOne({
+          where: {
+            productId,
+            size
+          }
+        }),
+        // Fetch CartItem data to check quantity
+        CartItem.findOne({
+          where: {
+            cartId: req.session.cartId || 0,
+            productId,
+            size
+          },
+          raw: true
+        })
+      ])
+        .then(([[cart], stock, cartItem]) => {
+          // Check whether the sum of cartItemQuantity and addQuantity exceeds stock  
+          const cartItemQuantity = cartItem ? cartItem.quantity : 0 
+          if (stock.quantity < cartItemQuantity + Number(quantity)) throw new Error('庫存不足！')
+          // Add the product is not in cartItem array 
+          if (!cartItems.includes(productId)) {
+            cartItems.push(productId)
+          }
+          // Set cartId & cartItems in session
           req.session.cartId = cart.toJSON().id
           req.session.cartItems = cartItems
+          // Save information in session & findOrCreate cartItem
           return Promise.all([
             req.session.save(),
             CartItem.findOrCreate({
               where: {
                 cartId: cart.id,
                 productId,
-                color: color || null,
-                size: size || null
+                size
               },
               defaults: {
                 cartId: cart.id,
                 productId,
                 amount: price,
                 quantity: 0,
-                color: color || null,
-                size: size || null
+                size
               }
             })
           ])
         })
         .then(([, [cartItem]]) => {
           return cartItem.update({
-            quantity: cartItem.quantity += 1,
+            quantity: cartItem.quantity += Number(quantity),
             amount: price * cartItem.quantity
           })
         })
@@ -67,25 +92,44 @@ const cartController = {
         .catch(err => next(err))
     } else {
       const cart = helpers.getUser(req).Cart
-      return CartItem.findOrCreate({
+      return Promise.all([
+        CartItem.findOne({
+          where: {
+            cartId: cart.id,
+            productId,
+            size
+          }
+        }),
+        Stock.findOne({
+          where: {
+            productId,
+            size
+          }
+        })
+      ])
+        .then(([cartItem, stock]) => {
+          // Check whether the sum of cartItemQuantity and addQuantity exceeds stock  
+          const cartItemQuantity = cartItem ? cartItem.quantity : 0
+          if (stock.quantity < cartItemQuantity + Number(quantity)) throw new Error('庫存不足！')
+          // Create cart item data if no existing data
+          return CartItem.findOrCreate({
             where: {
               cartId: cart.id,
               productId,
-              color: color || null,
-              size: size || null
+              size
             },
             defaults: {
               cartId: cart.id,
               productId,
               amount: price,
               quantity: 0,
-              color: color || null,
-              size: size || null
+              size
             }
           })
+        })
         .then(([cartItem]) => {
           return cartItem.update({
-            quantity: cartItem.quantity += 1,
+            quantity: cartItem.quantity += Number(quantity),
             amount: price * cartItem.quantity
           })
         })
