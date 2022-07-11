@@ -160,15 +160,23 @@ const cartController = {
       .catch(err => next(err))
   },
   putCartItem: (req, res, next) => {
-    const { id, change } = req.body
+    const { cartItemId, change, productId, size } = req.body
 
-    return CartItem.findByPk(id, {
-      include: [Product]
-    })
-      .then(cartItem => {
+    return Promise.all([
+      CartItem.findByPk(cartItemId, {
+        include: [Product]
+      }),
+      Stock.findOne({
+        where: {
+          productId,
+          size
+        }
+      })
+    ])
+      .then(([cartItem, stock]) => {
         if (!cartItem) throw new Error("Item doesn't exist!")
 
-        if (change === 'increase') {
+        if (change === 'increase' && (cartItem.quantity + 1) <= stock.quantity) {
           cartItem.update({
             quantity: cartItem.quantity += 1,
             amount: cartItem.quantity * cartItem.Product.price
@@ -178,6 +186,8 @@ const cartController = {
             quantity: cartItem.quantity -= 1,
             amount: cartItem.quantity * cartItem.Product.price
           })
+        } else if ((cartItem.quantity + 1) > stock.quantity) {
+          throw new Error('庫存不足！')
         }
       })
       .then(() => res.redirect('back'))

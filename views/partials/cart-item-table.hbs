@@ -3,33 +3,40 @@
     <tr>
       <th scope="col" style="width: 40%">商品</th>
       <th scope="col" style="width: 15%">單價</th>
-      <th scope="col" style="width: 12%">數量</th>
-      <th scope="col" style="width: 18%">小計</th>
-      <th scope="col" style="width: 15%">變更</th>
+      <th scope="col" style="width: 15%">數量</th>
+      <th scope="col" style="width: 20%">小計</th>
+      <th scope="col" style="width: 10%">變更</th>
     </tr>
   </thead>
   <tbody>
     {{#if user}}
       {{#each user.Cart.CartItems}}
         <tr>
-          <th scope="row">
-            <a href="/products/{{this.Product.id}}">
-              <img src="{{this.Product.image}}" class="cartItemImage me-1">
-              <span>{{this.Product.name}}</span>
+          <th scope="row" class="d-flex">
+            <a href="/products/{{this.Product.id}}" class="cartItemImageContainer me-2">
+              <img src="{{this.Product.image}}" class="cartItemImage w-100">
             </a>
+            <div class="cartItemTitle d-flex flex-column justify-content-center">
+              <span>{{this.Product.name}}</span>
+              <span class="text-secondary">Size: {{this.size}}</span>
+            </div>
           </th>
           <td>NT$ {{this.Product.price}}</td>
           <td>
             <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
-              <input type="hidden" name="id" value="{{this.id}}">
+              <input type="hidden" name="cartItemId" value="{{this.id}}">
               <input type="hidden" name="change" value="decrease">
+              <input type="hidden" name="productId" value="{{this.Product.id}}">
+              <input type="hidden" name="size" value="{{this.size}}">
               <button type="submit" class="quantity-decrease-button"> <&ensp; </button>
             </form>
             <span hidden>{{this.id}}</span>
             <span> {{this.quantity}} </span>
             <form action="/cart/{{../user.id}}?_method=PUT" method="POST" style="display: inline;">
-              <input type="hidden" name="id" value="{{this.id}}">
+              <input type="hidden" name="cartItemId" value="{{this.id}}">
               <input type="hidden" name="change" value="increase">
+              <input type="hidden" name="productId" value="{{this.Product.id}}">
+              <input type="hidden" name="size" value="{{this.size}}">
               <button type="submit" class="quantity-increase-button"> &ensp;> </button>
             </form>                </td>
           <td>NT$ {{this.amount}}</td>
@@ -45,17 +52,22 @@
     {{#if cart}}
       {{#each cart.CartItems}}
         <tr>
-          <th scope="row">
-            <a href="/products/{{this.Product.id}}">
-              <img src="{{this.Product.image}}" class="cartItemImage me-1">
-              <span>{{this.Product.name}}</span>
+          <th scope="row" class="d-flex">
+            <a href="/products/{{this.Product.id}}" class="cartItemImageContainer me-2">
+              <img src="{{this.Product.image}}" class="cartItemImage w-100">
             </a>
+            <div class="cartItemTitle d-flex flex-column justify-content-center">
+              <span>{{this.Product.name}}</span>
+              <span class="text-secondary">Size: {{this.size}}</span>
+            </div>
           </th>
           <td>NT$ {{this.Product.price}}</td>
           <td>
             <form action="/cart/{{#if ../user}}{{../user.id}}{{else}}0{{/if}}?_method=PUT" method="POST" style="display: inline;">
               <input type="hidden" name="id" value="{{this.id}}">
               <input type="hidden" name="change" value="decrease">
+              <input type="hidden" name="productId" value="{{this.Product.id}}">
+              <input type="hidden" name="size" value="{{this.size}}">
               <button type="submit" class="quantity-decrease-button"> <&ensp; </button>
             </form>
             <span hidden>{{this.id}}</span>
@@ -63,6 +75,8 @@
             <form action="/cart/{{#if ../user}}{{../user.id}}{{else}}0{{/if}}?_method=PUT" method="POST" style="display: inline;">
               <input type="hidden" name="id" value="{{this.id}}">
               <input type="hidden" name="change" value="increase">
+              <input type="hidden" name="productId" value="{{this.Product.id}}">
+              <input type="hidden" name="size" value="{{this.size}}">
               <button type="submit" class="quantity-increase-button"> &ensp;> </button>
             </form>                </td>
           <td>NT$ {{this.amount}}</td>
