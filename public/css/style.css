@@ -74,3 +74,8 @@ a {
   border-color: gray;
   box-shadow: 0 0 0 0.25rem #DCDCDC;
 }
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
