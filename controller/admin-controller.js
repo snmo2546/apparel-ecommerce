@@ -69,27 +69,61 @@ const adminController = {
   },
   editProduct: (req, res, next) => {
     return Promise.all([
-      Product.findByPk(req.params.id, { raw: true }),
+      Product.findByPk(req.params.id, { 
+        include: [Stock],
+      }),
       Category.findAll({ raw: true }),
       Brand.findAll({ raw: true })
     ])
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
 
-        return res.render('admin/edit-product', { product, categories, brands })
+        return res.render('admin/edit-product', { product: product.toJSON(), categories, brands })
       })
       .catch(err => next(err))
   },
   putProduct: (req, res, next) => {
-    const { name, price, description, categoryId, brandId } = req.body
+    const { name, price, description, categoryId, brandId, color, stockId, size, quantity } = req.body
     const { file } = req
-
+    const productId = req.params.id
+    console.log(req.body)
     if (!name) throw new Error('Product name is required!')
     if (!price) throw new Error('Product price is required!')
+    
+    let stocks = []
+    for (let i = 0; i < stockId.length; i++) {
+      if (quantity[i]) {
+        stocks.push({
+          stockId: stockId[i],
+          color: color[i],
+          size: size[i],
+          quantity: quantity[i]
+        })
+      }
+    }
 
     return Promise.all([
       Product.findByPk(req.params.id),
-      imgurFileHandler(file)
+      imgurFileHandler(file),
+      stocks.map(i => {
+        return Stock.findOrCreate({ 
+          where: { id: i.stockId || 0 },
+          defaults: {
+            productId,
+            size: i.size,
+            quantity: i.quantity,
+            color: i.color || null
+          } 
+        })
+          .then(([stock]) => {
+            return stock.update({
+              size: i.size,
+              quantity: i.quantity,
+              color: i.color || null
+            })
+          })
+          .catch(err => next(err))
+      })
     ])
       .then(([product, filePath]) => {
         if (!product) throw new Error("Product doesn't exist!")

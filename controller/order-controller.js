@@ -59,6 +59,7 @@ const orderController = {
                   quantity: stock.quantity - i.quantity
                 })
               })
+              .catch(err => next(err))
           })
         ])
       })
@@ -69,24 +70,6 @@ const orderController = {
           sendMail(req.user.email, mailContent),
           res.render('payment', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
         ])
-      })
-      .catch(err => next(err))
-  },
-  postPayment: (req, res, next) => {
-    const { cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
-
-    return Promise.all([
-      PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode }),
-      Order.findByPk(orderId)
-    ])
-      .then(([paymentDetail, order]) => {
-        return order.update({
-          paymentDetailId: paymentDetail.id
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', '付款已完成！')
-        return res.redirect('/index')
       })
       .catch(err => next(err))
   },

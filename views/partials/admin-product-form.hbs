@@ -11,11 +11,12 @@
   <div class="col-md-4">
     <label for="color" class="form-label">顏色</label>
     <input type="text" class="form-control" name="color" id="color">
+    <input type="hidden" name="stockId">
   </div>
   <div class="col-md-4">
     <label for="size" class="form-label">尺寸</label>
     <select class="form-select" name="size">
-      <option selected>請選擇尺寸</option>
+      <option>請選擇尺寸</option>
       <option value="S">S</option>
       <option value="M">M</option>
       <option value="L">L</option>
@@ -28,6 +29,27 @@
     <input type="number" class="form-control" name="quantity" id="quantity">
   </div>
 </div>
+{{#each product.Stocks}}
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input type="text" class="form-control" name="color" id="color" value="{{this.color}}">
+      <input type="hidden" name="stockId" value="{{this.id}}">
+    </div>
+    <div class="col-md-4">
+      <select class="form-select" name="size">
+        <option>請選擇尺寸</option>
+        <option value="S" {{#ifCond this.size 'S'}}selected{{/ifCond}}>S</option>
+        <option value="M" {{#ifCond this.size 'M'}}selected{{/ifCond}}>M</option>
+        <option value="L" {{#ifCond this.size 'L'}}selected{{/ifCond}}>L</option>
+        <option value="XL" {{#ifCond this.size 'XL'}}selected{{/ifCond}}>XL</option>
+        <option value="Free" {{#ifCond this.size 'Free'}}selected{{/ifCond}}>Free</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <input type="number" class="form-control" name="quantity" id="quantity" value="{{this.quantity}}">
+    </div>
+  </div>
+{{/each}}
 <div class="form-row mb-3">
   <label class="form-label" for="brandId">品牌</label>
   <select class="form-control" id="brandId" name="brandId">
