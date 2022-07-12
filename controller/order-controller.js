@@ -1,4 +1,4 @@
-const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product, CartItem } = require('../models')
+const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product, CartItem, Stock } = require('../models')
 const { ecpayCredit } = require('../utils/ecpay')
 const { sendMail, orderConfirmMail, paymentConfirmMail } = require('../utils/mail')
 
@@ -26,49 +26,50 @@ const orderController = {
     ]) 
       .then(([order, cart, shipmentDetail]) => {
         const currentOrder = order
+        // Put cart items in an array in order to create ordered items
         const items = cart.CartItems.map(i => ({
           quantity: i.quantity,
           amount: i.amount,
           productId: i.productId,
           orderId: order.id,
+          color: i.color,
+          size: i.size,
           createdAt: new Date(),
           updatedAt: new Date()
         }))
         return Promise.all([
-          OrderedProduct.bulkCreate(items),
+          // Pass order & shipment detail info to produce mail content
           currentOrder,
           shipmentDetail,
+          OrderedProduct.bulkCreate(items),
+          order.update({ shipmentDetailId: shipmentDetail.id }),
+          // Remove ordered items from cart & deduct the amount from stock
           CartItem.destroy({
             where: { cartId: cart.id }
           }),
-          order.update({ shipmentDetailId: shipmentDetail.id })
+          cart.CartItems.map(i => {
+            return Stock.findOne({
+              where: {
+                productId: i.productId,
+                size: i.size
+              }
+            })
+              .then(stock => {
+                return stock.update({
+                  quantity: stock.quantity - i.quantity
+                })
+              })
+              .catch(err => next(err))
+          })
         ])
       })
-      .then(([, currentOrder, shipmentDetail,]) => {
+      .then(([currentOrder, shipmentDetail,]) => {
         const mailContent = orderConfirmMail(currentOrder.toJSON(), shipmentDetail.toJSON(), 'unpaid')        
         req.flash('success_messages', '成功下單！')
         return Promise.all([
           sendMail(req.user.email, mailContent),
           res.render('payment', { currentOrder: currentOrder.toJSON(), shipmentDetail: shipmentDetail.toJSON() })
         ])
-      })
-      .catch(err => next(err))
-  },
-  postPayment: (req, res, next) => {
-    const { cardNumber, cardHolder, expirationDate, securityCode, orderId } = req.body
-
-    return Promise.all([
-      PaymentDetail.create({ cardNumber, cardHolder, expirationDate, securityCode }),
-      Order.findByPk(orderId)
-    ])
-      .then(([paymentDetail, order]) => {
-        return order.update({
-          paymentDetailId: paymentDetail.id
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', '付款已完成！')
-        return res.redirect('/index')
       })
       .catch(err => next(err))
   },

@@ -19,10 +19,16 @@ a {
 }
 
 .cartItemImage {
-  height: 40%;
-  width: 40%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+.cartItemImageContainer {
+  width: 40%;
+}
+
+.cartItemTitle span {
+  font-weight: normal;
 }
 
 .quantity-decrease-button, .quantity-increase-button, .cart-delete-button {
@@ -67,4 +73,9 @@ a {
 .form-signin input:focus {
   border-color: gray;
   box-shadow: 0 0 0 0.25rem #DCDCDC;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

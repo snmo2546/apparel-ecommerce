@@ -15,5 +15,8 @@ module.exports = {
     })
     return total
   },
-  displayDate: a => dayjs(a).format('YYYY-MM-DD')
+  displayDate: a => dayjs(a).format('YYYY-MM-DD'),
+  ifContains: function (a, b, options) {
+    return a.includes(b) ? options.fn(this) : options.inverse(this)
+  }
 }

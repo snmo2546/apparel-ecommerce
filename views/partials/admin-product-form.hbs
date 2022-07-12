@@ -1,10 +1,59 @@
 <div class="form-row mb-3">
-  <label class="form-label" for="name">Name</label>
+  <label class="form-label" for="name">商品名稱</label>
   <input class="form-control" type="text" name="name" id="name" value="{{product.name}}" required>
 </div>
 <div class="form-row mb-3">
-  <label class="form-label" for="price">Price</label>
+  <label class="form-label" for="price">商品價格</label>
   <input class="form-control" type="number" name="price" id="price" value="{{product.price}}" required>
+</div>
+<div id="stockFormRow">
+  <div class="row mb-3">
+    <label class="form-label" for="price">庫存數量</label>
+    <div class="col-md-4">
+      <label for="color" class="form-label">顏色</label>
+      <input type="text" class="form-control" name="color" id="color">
+      <input type="hidden" name="stockId">
+    </div>
+    <div class="col-md-4">
+      <label for="size" class="form-label">尺寸</label>
+      <select class="form-select" name="size">
+        <option>請選擇尺寸</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="Free">Free</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="quantity" class="form-label">數量</label>
+      <input type="number" class="form-control" name="quantity" id="quantity">
+    </div>
+  </div>
+  {{#each product.Stocks}}
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <input type="text" class="form-control" name="color" id="color" value="{{this.color}}">
+        <input type="hidden" name="stockId" value="{{this.id}}">
+      </div>
+      <div class="col-md-4">
+        <select class="form-select" name="size">
+          <option>請選擇尺寸</option>
+          <option value="S" {{#ifCond this.size 'S'}}selected{{/ifCond}}>S</option>
+          <option value="M" {{#ifCond this.size 'M'}}selected{{/ifCond}}>M</option>
+          <option value="L" {{#ifCond this.size 'L'}}selected{{/ifCond}}>L</option>
+          <option value="XL" {{#ifCond this.size 'XL'}}selected{{/ifCond}}>XL</option>
+          <option value="Free" {{#ifCond this.size 'Free'}}selected{{/ifCond}}>Free</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <input type="number" class="form-control" name="quantity" id="quantity" value="{{this.quantity}}">
+      </div>
+    </div>
+  {{/each}}  
+</div>
+<div class="row mb-3">
+  <span class="btn btn-secondary" id="addStockRowBtn">添加庫存</span>
 </div>
 <div class="form-row mb-3">
   <label class="form-label" for="brandId">品牌</label>

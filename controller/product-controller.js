@@ -1,4 +1,4 @@
-const { Product, Category, Brand } = require('../models')
+const { Product, Category, Brand, Stock } = require('../models')
 const helpers = require('../helpers/auth-helpers')
 
 const productController = {
@@ -20,17 +20,16 @@ const productController = {
   getProduct: (req, res, next) => {
     return Promise.all([
       Product.findByPk(req.params.id, {
-        raw: true,
         nest: true,
-        include: [Category, Brand]
+        include: [Category, Brand, Stock]
       }),
       Category.findAll({ raw: true }),
       Brand.findAll({ raw: true })      
     ])
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
-
-        return res.render('product', { product, categories, brands })
+        const stocks = product.toJSON().Stocks.map(i => i.size)
+        return res.render('product', { product: product.toJSON(), categories, brands, stocks })
       })
       .catch(err => next(err))
   },
