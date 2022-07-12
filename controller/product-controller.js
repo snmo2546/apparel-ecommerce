@@ -28,8 +28,8 @@ const productController = {
     ])
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
-
-        return res.render('product', { product: product.toJSON(), categories, brands })
+        const stocks = product.toJSON().Stocks.map(i => i.size)
+        return res.render('product', { product: product.toJSON(), categories, brands, stocks })
       })
       .catch(err => next(err))
   },
