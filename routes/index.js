@@ -8,6 +8,7 @@ const productController = require('../controller/product-controller')
 const cartController = require('../controller/cart-controller')
 const orderController = require('../controller/order-controller')
 const accountController = require('../controller/account-controller')
+const messageController = require('../controller/message-controller')
 
 const admin = require('./modules/admin')
 const auth = require('./modules/auth')
@@ -42,6 +43,8 @@ router.post('/orders/:userId', authenticated, orderController.postOrder)
 
 router.get('/accounts/:userId/orders/:orderId', authenticated, accountController.getOrder)
 router.get('/accounts/:userId/orders', authenticated, accountController.getOrders)
+
+router.post('/messages', authenticated, messageController.postMessage)
 
 router.get('/index', productController.getIndex)
 

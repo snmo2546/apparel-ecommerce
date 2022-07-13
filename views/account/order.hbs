@@ -11,7 +11,7 @@
         <span>訂單 #{{order.id}}</span> 
         <span>成立日期 {{displayDate order.createdAt}}</span>
       </p>
-      <table class="order-detail-table table text-center" style="width: 100%;">
+      <table class="order-detail-table table text-center mb-4" style="width: 100%;">
         <thead>
           <tr>
             <th scope="col" style="width: 80%;">商品</th>
@@ -53,6 +53,15 @@
             </tr>
         </tfoot>
       </table>
+      {{!-- Message --}}
+      <form action="/messages" method="POST">
+        <div class="form-row mb-3">
+          <label class="form-label" for="text"><strong>留下評論：</strong></label>
+          <textarea class="form-control" name="text" id="text" cols="30" rows="6"></textarea>
+        </div>
+        <input type="hidden" name="orderId" value="{{order.id}}">
+        <button type="submit" class="btn btn-secondary">送出</button>
+      </form>
     </div>
   </div>
 </div>
