@@ -1,4 +1,4 @@
-const { Order, OrderedProduct, Product, ShipmentMethod, ShipmentDetail } = require('../models')
+const { Order, OrderedProduct, Product, ShipmentMethod, ShipmentDetail, Message, User } = require('../models')
 const helpers = require('../helpers/auth-helpers')
 
 const accountController = {
@@ -21,6 +21,7 @@ const accountController = {
       nest: true,
       include: [
         { model: OrderedProduct, include: [ Product ]},
+        { model: Message, include: [ User ] },
         ShipmentMethod,
         ShipmentDetail
       ]
