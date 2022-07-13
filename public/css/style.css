@@ -79,3 +79,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+blockquote.customerMessage {
+  background-color: #F5F5F5;
+  padding: 12px;
+}
+
+.blockquote-footer {
+  margin-bottom: 0;
+}

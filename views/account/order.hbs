@@ -58,13 +58,26 @@
         <strong>訂單所有訊息：</strong>
       </div>
       {{#each order.Messages}}
-        <blockquote>
-          <span>{{this.User.name}}</span>
-          <p>{{this.text}}</p>
-          <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
-        </blockquote>
-        <hr>
+        {{#ifCond this.User.role null}}
+          <div class="d-flex justify-content-end">
+            <blockquote class="customerMessage w-50">
+              <span>{{this.User.name}}</span>
+              <p>{{this.text}}</p>
+              <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
+            </blockquote>  
+          </div>
+        {{/ifCond}}
+        {{#ifCond this.User.role 'admin'}}
+          <div class="d-flex justify-content-start">
+            <blockquote class="adminMessage w-50">
+              <span>{{this.User.name}}</span>
+              <p>{{this.text}}</p>
+              <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
+            </blockquote>
+          </div>
+        {{/ifCond}}
       {{/each}}
+      <hr>
       <form action="/messages" method="POST">
         <div class="form-row mb-3">
           <label class="form-label" for="text"><strong>留下訊息：</strong></label>
