@@ -1,4 +1,4 @@
-const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct, Stock } = require('../models')
+const { Product, Category, Brand, Order, User, ShipmentMethod, ShipmentDetail, OrderedProduct, Stock, Message } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
@@ -173,6 +173,7 @@ const adminController = {
       nest: true,
       include: [
         { model: OrderedProduct, include: [ Product ] },
+        { model: Message, include: [ User ] },
         ShipmentMethod,
         ShipmentDetail
       ]
