@@ -11,7 +11,7 @@
         <span>訂單 #{{order.id}}</span> 
         <span>成立日期 {{displayDate order.createdAt}}</span>
       </p>
-      <table class="order-detail-table table text-center" style="width: 100%;">
+      <table class="order-detail-table table text-center mb-5" style="width: 100%;">
         <thead>
           <tr>
             <th scope="col" style="width: 80%;">商品</th>
@@ -53,6 +53,39 @@
             </tr>
         </tfoot>
       </table>
+      {{!-- Message --}}
+      <div class="mb-3">
+        <strong>訂單所有訊息：</strong>
+      </div>
+      {{#each order.Messages}}
+        {{#ifCond this.User.role null}}
+          <div class="d-flex justify-content-end">
+            <blockquote class="customerMessage">
+              <span>{{this.User.name}}</span>
+              <p>{{this.text}}</p>
+              <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
+            </blockquote>  
+          </div>
+        {{/ifCond}}
+        {{#ifCond this.User.role 'admin'}}
+          <div class="d-flex justify-content-start">
+            <blockquote class="adminMessage">
+              <span>{{this.User.name}}</span>
+              <p>{{this.text}}</p>
+              <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
+            </blockquote>
+          </div>
+        {{/ifCond}}
+      {{/each}}
+      <hr>
+      <form action="/messages" method="POST">
+        <div class="form-row mb-3">
+          <label class="form-label" for="text"><strong>留下訊息：</strong></label>
+          <textarea class="form-control" name="text" id="text" cols="30" rows="2" placeholder="有甚麼話想留言嗎？"></textarea>
+        </div>
+        <input type="hidden" name="orderId" value="{{order.id}}">
+        <button type="submit" class="btn btn-secondary">送出</button>
+      </form>
     </div>
   </div>
 </div>
