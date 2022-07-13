@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Order.belongsTo(models.ShipmentMethod, { foreignKey: 'shipmentMethodId' })
       Order.belongsTo(models.ShipmentDetail, { foreignKey: 'shipmentDetailId' })
       Order.belongsTo(models.PaymentDetail, { foreignKey: 'paymentDetailId' })
+      Order.hasMany(models.Message, { foreignKey: 'orderId' })
     }
   }
   Order.init({
