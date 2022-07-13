@@ -54,7 +54,9 @@
         </tfoot>
       </table>
       {{!-- Message --}}
-      <strong class="mb-3">所有訊息：</strong>
+      <div class="mb-3">
+        <strong>訂單所有訊息：</strong>
+      </div>
       {{#each order.Messages}}
         <blockquote>
           <span>{{this.User.name}}</span>
@@ -66,7 +68,7 @@
       <form action="/messages" method="POST">
         <div class="form-row mb-3">
           <label class="form-label" for="text"><strong>留下訊息：</strong></label>
-          <textarea class="form-control" name="text" id="text" cols="30" rows="3"></textarea>
+          <textarea class="form-control" name="text" id="text" cols="30" rows="2" placeholder="有甚麼話想留言嗎？"></textarea>
         </div>
         <input type="hidden" name="orderId" value="{{order.id}}">
         <button type="submit" class="btn btn-secondary">送出</button>

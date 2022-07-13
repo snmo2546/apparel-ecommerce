@@ -1,5 +1,4 @@
 const { Product, Category, Brand, Stock } = require('../models')
-const helpers = require('../helpers/auth-helpers')
 
 const productController = {
   getIndex: (req, res, next) => {
