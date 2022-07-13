@@ -83,11 +83,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 blockquote.customerMessage {
   background-color: #F5F5F5;
   padding: 12px;
+  width: 56%;
 }
 
 blockquote.adminMessage {
   background-color: #E0FFFF;
   padding: 12px;
+  width: 56%;
 }
 
 .blockquote-footer {

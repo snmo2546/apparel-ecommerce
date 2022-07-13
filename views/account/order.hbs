@@ -60,7 +60,7 @@
       {{#each order.Messages}}
         {{#ifCond this.User.role null}}
           <div class="d-flex justify-content-end">
-            <blockquote class="customerMessage w-50">
+            <blockquote class="customerMessage">
               <span>{{this.User.name}}</span>
               <p>{{this.text}}</p>
               <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
@@ -69,7 +69,7 @@
         {{/ifCond}}
         {{#ifCond this.User.role 'admin'}}
           <div class="d-flex justify-content-start">
-            <blockquote class="adminMessage w-50">
+            <blockquote class="adminMessage">
               <span>{{this.User.name}}</span>
               <p>{{this.text}}</p>
               <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>

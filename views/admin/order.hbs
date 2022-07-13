@@ -7,7 +7,7 @@
         <span>訂單 #{{order.id}}</span>
         <span>成立日期 {{displayDate order.createdAt}}</span>
       </p>
-      <table class="order-detail-table table text-center" style="width: 100%;">
+      <table class="order-detail-table table text-center mb-5" style="width: 100%;">
         <thead>
           <tr>
             <th scope="col" style="width: 80%;">商品</th>
@@ -52,7 +52,7 @@
       {{#each order.Messages}}
         {{#ifCond this.User.role null}}
           <div class="d-flex justify-content-end">
-            <blockquote class="customerMessage w-50">
+            <blockquote class="customerMessage">
               <span>{{this.User.name}}</span>
               <p>{{this.text}}</p>
               <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
@@ -61,7 +61,7 @@
         {{/ifCond}}
         {{#ifCond this.User.role 'admin'}}
           <div class="d-flex justify-content-start">
-            <blockquote class="adminMessage w-50">
+            <blockquote class="adminMessage">
               <span>{{this.User.name}}</span>
               <p>{{this.text}}</p>
               <footer class="blockquote-footer">{{displayDate this.createdAt}}</footer>
