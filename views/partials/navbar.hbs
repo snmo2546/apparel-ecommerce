@@ -36,6 +36,22 @@
     </div>
     <div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Search
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <form action="/products/search">
+              <div class="input-group mb-3">
+                <input type="text" name="query" class="form-control" aria-label="Movie Name..." aria-describedby="search-button">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
+                </div>
+              </div>
+            </form>
+          </ul>
+        </li>
         {{#if isAuthenticated}}
           <li class="nav-item ms-3">
             <a class="nav-link" href="/accounts/{{user.id}}/orders">My Account</a>

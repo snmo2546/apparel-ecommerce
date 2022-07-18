@@ -1,4 +1,5 @@
 const { Product, Category, Brand, Stock } = require('../models')
+const { Op } = require('sequelize')
 
 const productController = {
   getIndex: (req, res, next) => {
@@ -76,7 +77,23 @@ const productController = {
     ])
       .then(([products, categories, brands]) => res.render('products', { products, categories, brands }))
       .catch(err => next(err))
-  }
+  },
+  getSearchResult: (req, res, next) => {
+    const query = req.query.query
+    return Promise.all([
+      Product.findAll({
+        raw: true,
+        nest: true,
+        where: { name: { [Op.like]: `%${query}%` } },
+        order: [['createdAt', 'DESC']]
+      }),
+      Category.findAll({ raw: true }),
+      Brand.findAll({ raw: true })
+    ])
+      .then(([products, categories, brands]) => {
+        res.render('products', { products, categories, brands })
+      })
+      .catch(err => next(err))  }
 }
 
 module.exports = productController
