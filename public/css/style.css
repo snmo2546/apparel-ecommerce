@@ -95,3 +95,16 @@ blockquote.adminMessage {
 .blockquote-footer {
   margin-bottom: 0;
 }
+
+input.search-input, input.search-input:focus {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ced4da;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+button#search-button {
+  border: none;
+}
