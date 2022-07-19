@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User, Cart } = db
+const helpers = require('../helpers/auth-helpers')
+const { User, Cart, Favorite, Product } = db
 
 const userController = {
   signUpPage: (req, res) => {
@@ -45,6 +46,45 @@ const userController = {
       req.flash('success_messages', '成功登出！')
       return res.redirect('back')
     })
+  },
+  addFavorite: (req, res, next) => {
+    const { productId } = req.params
+    return Promise.all([
+      Product.findByPk(productId),
+      Favorite.findOne({
+        where: {
+          userId: helpers.getUser(req).id,
+          productId
+        }
+      })
+    ])
+      .then(([product, favorite]) => {
+        if (!product) throw new Error('商品不存在！')
+        if (favorite) throw new Error('已將商品加入最愛！')
+
+        return Favorite.create({
+          userId: helpers.getUser(req).id,
+          productId
+        })
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => next(err))
+  },
+  removeFavorite: (req, res, next) => {
+    const { productId } = req.params
+    return Favorite.findOne({
+      where: {
+        userId: helpers.getUser(req).id,
+        productId
+      }
+    })
+      .then(favorite => {
+        if (!favorite) throw new Error('尚未把商品加入最愛！')
+
+        return favorite.destroy()
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => next(err))
   }
 }
 module.exports = userController
