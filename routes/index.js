@@ -28,6 +28,7 @@ router.get('/logout', userController.logout)
 router.get('/products/categories/:categoryId', productController.getCategoryProd)
 router.get('/products/brands/:brandId', productController.getBrandProd)
 router.get('/products/new', productController.getNewIn)
+router.get('/products/search', productController.getSearchResult)
 router.get('/products/:id', productController.getProduct)
 
 router.get('/cart/checkout', authenticated, orderController.getCartCheckout)

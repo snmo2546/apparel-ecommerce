@@ -36,19 +36,37 @@
     </div>
     <div>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <form action="/products/search">
+              <div class="input-group">
+                <input type="text" name="query" class="form-control search-input ms-3">
+                <div class="input-group-append">
+                  <button class="btn" type="submit" id="search-button">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </ul>
+        </li>
         {{#if isAuthenticated}}
-          <li class="nav-item ms-3">
+          <li class="nav-item ms-2">
             <a class="nav-link" href="/accounts/{{user.id}}/orders">My Account</a>
           </li>
-          <li class="nav-item ms-3">
+          <li class="nav-item ms-2">
             <a class="nav-link" href="/logout">Logout</a>
           </li>
         {{else}}
-          <li class="nav-item ms-3">
+          <li class="nav-item ms-2">
             <a class="nav-link" href="/signin">Sign In</a>
           </li>
         {{/if}}
-        <li class="nav-item ms-3">
+        <li class="nav-item ms-2">
           <a class="nav-link" href="/cart">
             Cart({{#if user}}{{arrayLength user.Cart.CartItems}}{{else}}{{arrayLength guestCart}}{{/if}})
           </a>
