@@ -47,6 +47,9 @@ router.get('/accounts/:userId/orders', authenticated, accountController.getOrder
 
 router.post('/messages', authenticated, messageController.postMessage)
 
+router.post('/favorite/:productId', authenticated, userController.addFavorite)
+router.delete('/favorite/:productId', authenticated, userController.removeFavorite)
+
 router.get('/index', productController.getIndex)
 
 router.use('/', (req, res) => res.redirect('/index'))

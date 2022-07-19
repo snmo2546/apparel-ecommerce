@@ -86,7 +86,8 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((id, cb) => {
   return User.findByPk(id, {
     include: [
-      { model: Cart, include: [{ model: CartItem, include: [ Product ]  }] }
+      { model: Cart, include: [{ model: CartItem, include: [ Product ]  }] },
+      { model: Product, as: 'FavoritedProducts' }
     ]
   })
     .then(user => {

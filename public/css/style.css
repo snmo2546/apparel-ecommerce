@@ -31,7 +31,7 @@ a {
   font-weight: normal;
 }
 
-.quantity-decrease-button, .quantity-increase-button, .cart-delete-button {
+.quantity-decrease-button, .quantity-increase-button, .cart-delete-button, .favorite-button {
   background: none;
   color: inherit;
   border: none;

@@ -1,5 +1,6 @@
-const { Product, Category, Brand, Stock } = require('../models')
+const { Product, Category, Brand, Stock, User } = require('../models')
 const { Op } = require('sequelize')
+const helpers = require('../helpers/auth-helpers')
 
 const productController = {
   getIndex: (req, res, next) => {
@@ -21,7 +22,12 @@ const productController = {
     return Promise.all([
       Product.findByPk(req.params.id, {
         nest: true,
-        include: [Category, Brand, Stock]
+        include: [
+          Category, 
+          Brand, 
+          Stock,
+          { model: User, as: 'FavoritedUsers' }
+        ]
       }),
       Category.findAll({ raw: true }),
       Brand.findAll({ raw: true })      
@@ -29,7 +35,9 @@ const productController = {
       .then(([product, categories, brands]) => {
         if (!product) throw new Error("Product doesn't exist!")
         const stocks = product.toJSON().Stocks.map(i => i.size)
-        return res.render('product', { product: product.toJSON(), categories, brands, stocks })
+        const userId = helpers.getUser(req) ? helpers.getUser(req).id : null
+        const isFavorited = product.FavoritedUsers.some(f => f.id === userId)
+        return res.render('product', { product: product.toJSON(), categories, brands, stocks, isFavorited })
       })
       .catch(err => next(err))
   },
