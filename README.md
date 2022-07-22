@@ -14,7 +14,7 @@ Expiration Date: Any future date (Format: MM/YY)
 Verification Code: 222</code></pre>
 
 ## Features
-### Front-end
+### Customer
 Browse Items
 * Browse all items at a glance
 * Browse items filtered by brands or categories
@@ -45,7 +45,7 @@ Account
 * Browse specific order with detail information
 * Send messages to the admin
 
-### Back-end
+### Admin
 Order management
 * Browse all orders
 * Browse specific order with detail information
