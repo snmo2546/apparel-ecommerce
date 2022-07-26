@@ -47,7 +47,12 @@ passport.use(new FacebookStrategy(
             email,
             password: hash
           }))
-          .then(user => done(null, user))
+          .then(user => {
+            Cart.create({
+              userId: user.id
+            })
+          })
+          .then(() => done(null, user))
           .catch(err => done(err, false))
       })
   }
@@ -73,7 +78,12 @@ passport.use(new GoogleStrategy(
             email,
             password: hash
           }))
-          .then(user => done(null, user))
+          .then(user => {
+            Cart.create({
+              userId: user.id
+            })
+          })
+          .then(() => done(null, user))
           .catch(err => done(err, false))
       })
   }
