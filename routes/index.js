@@ -37,7 +37,7 @@ router.delete('/cart/:userId', cartController.deleteCartItem)
 router.post('/cart/:userId', cartController.postCart)
 router.get('/cart', cartController.getCart)
 
-router.post('/orders/:userId/:orderId/result', authenticated, orderController.putPaymentInfo)
+router.post('/orders/:userId/:orderId/result', orderController.putPaymentInfo)
 router.get('/orders/:userId/:orderId/payment', authenticated, orderController.getPayment)
 router.get('/orders/:userId/:orderId/ecpay', authenticated, orderController.getEcpay)
 router.post('/orders/:userId', authenticated, orderController.postOrder)

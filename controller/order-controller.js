@@ -1,6 +1,7 @@
 const { Order, ShipmentMethod, Cart, OrderedProduct, ShipmentDetail, PaymentDetail, Product, CartItem, Stock } = require('../models')
 const { ecpayCredit } = require('../utils/ecpay')
 const { sendMail, orderConfirmMail, paymentConfirmMail } = require('../utils/mail')
+const storage = require('sessionstorage')
 
 const orderController = {
   getCartCheckout: (req, res, next) => {
@@ -64,7 +65,7 @@ const orderController = {
         ])
       })
       .then(([currentOrder, shipmentDetail,]) => {
-        const mailContent = orderConfirmMail(currentOrder.toJSON(), shipmentDetail.toJSON(), 'unpaid')        
+        const mailContent = orderConfirmMail(currentOrder.toJSON(), shipmentDetail.toJSON(), 'unpaid', req)        
         req.flash('success_messages', '成功下單！')
         return Promise.all([
           sendMail(req.user.email, mailContent),
@@ -75,6 +76,7 @@ const orderController = {
   },
   getEcpay: (req, res, next) => {
     const { userId, orderId } = req.params
+    storage.setItem('session', req.session)
     return Order.findByPk(orderId, {
       nest: true,
       include: [ 
@@ -117,7 +119,8 @@ const orderController = {
   putPaymentInfo: (req, res, next) => {
     const { RtnCode, PaymentDate, PaymentType, PaymentTypeChargeFee, TradeAmt } = req.body
     const { userId, orderId } = req.params
-
+    req.session.passport = storage.getItem('session').passport
+    req.session.save()
     return Promise.all([
       Order.findByPk(orderId, {
         include: [ShipmentDetail]
@@ -130,17 +133,23 @@ const orderController = {
       })
     ])
       .then(([order, paymentDetail]) => {
-        const mailContent = paymentConfirmMail(order.toJSON(), paymentDetail.toJSON())
         if (!order) throw new Error("Order doesn't exist!")
+        const mailContent = paymentConfirmMail(order.toJSON(), paymentDetail.toJSON())
         return Promise.all([
-          sendMail(req.user.email, mailContent),
+          mailContent,
           order.update({
             paymentStatus: RtnCode,
             paymentDetailId: paymentDetail.id
           })
         ]) 
       })
-      .then(() => res.redirect(`/accounts/${userId}/orders`))
+      .then(([mailContent,]) => {
+        res.redirect(`/accounts/${userId}/orders`)
+        return mailContent
+      })
+      .then(mailContent => {
+        return sendMail(req.user.email, mailContent)
+      })
       .catch(err => next(err))
   }
 }
