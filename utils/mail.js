@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer')
 const fs = require('fs')
 const Handlebars = require('handlebars')
+const helpers = require('../helpers/auth-helpers')
 
 const sendMailPromise = mailOptions => {
   return new Promise((resolve, reject) => {
@@ -35,12 +36,12 @@ module.exports = {
 
     return await sendMailPromise(mailOptions)
   },
-  orderConfirmMail: (order, shipmentDetail, paymentStatus) => {
+  orderConfirmMail: (order, shipmentDetail, paymentStatus, req) => {
     const source = fs.readFileSync('views/mails/orderConfirm.hbs', 'utf8')
     const template = Handlebars.compile(source)
     return {
       subject: `Thank you for your Apparel order #${order.id} `,
-      html: template({ order, shipmentDetail, paymentStatus, url: process.env.URL })
+      html: template({ order, shipmentDetail, paymentStatus, url: process.env.WEBSITE_URL, user: helpers.getUser(req) })
     }
   },
   paymentConfirmMail: (order, paymentDetail) => {
@@ -48,7 +49,7 @@ module.exports = {
     const template = Handlebars.compile(source)
     return {
       subject: `Payment Confirmation for your Blanche order #${order.id} `,
-      html: template({ order, paymentDetail, url: process.env.URL })
+      html: template({ order, paymentDetail, url: process.env.WEBSITE_URL })
     }
   }
 }

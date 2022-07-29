@@ -35,6 +35,7 @@
     "passport-local": "^1.0.0",
     "sequelize": "^6.20.0",
     "sequelize-cli": "^6.4.1",
+    "sessionstorage": "^0.1.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
