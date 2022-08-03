@@ -21,7 +21,7 @@
                 <span>{{this.price}}</span>
               </div>
               <div>
-                <a class="btn btn-secondary" href="/admin/products/{{this.id}}/edit">Edit</a>
+                <a class="btn btn-outline-secondary" href="/admin/products/{{this.id}}/edit">Edit</a>
                 <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
                   <button type="submit" class="btn btn-outline-secondary" onclick="return confirm(`確定要刪除 {{this.name}} 嗎？`)">Delete</button>
                 </form>

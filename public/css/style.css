@@ -118,3 +118,16 @@ button#search-button {
 .product-card, .admin-product-card {
   padding: 0 0.25rem;
 }
+
+.nav-tabs .nav-item .nav-link, 
+.btn-link {
+  color: #6c757d;
+}
+
+.btn-link:hover {
+  color: #6c757d;
+}
+
+.btn-link {
+  text-decoration: none;
+}
