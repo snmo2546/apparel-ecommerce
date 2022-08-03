@@ -2,29 +2,33 @@
   {{> admin-navbar}}
 
   {{> admin-tabs route='products'}}
-  <a class="btn btn-primary mt-3" href="/admin/products/create" role="button">新增商品</a>
-  <div class="card-container d-flex flex-wrap mt-3">
+  <a class="btn btn-outline-secondary mt-3" href="/admin/products/create" role="button">新增商品</a>
+  <div class="card-container row d-flex flex-wrap mt-3">
     {{#each products}}
-      <div class="card" style="width: 18rem;">
-        <a href="/admin/products/{{this.id}}">
-          {{#if this.image}}
-            <img src="{{this.image}}"
-              class="card-img-top">
-          {{else}}
-            <img src="https://media.karousell.com/media/photos/products/2021/11/19/goopi_x_gu__1637316426_a149c02d_progressive.jpg"
-              class="card-img-top">
-          {{/if}}
-          <div class="card-body">
-            <h5 class="card-title">{{this.name}}</h5>
-            <span>{{this.price}}</span>
-            <div>
-              <a class="btn btn-primary" href="/admin/products/{{this.id}}/edit">Edit</a>
-              <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit" class="btn btn-danger" onclick="return confirm(`確定要刪除 {{this.name}} 嗎？`)">Delete</button>
-              </form>
+      <div class="admin-product-card col-md-4">
+        <div class="card">
+          <a href="/admin/products/{{this.id}}">
+            {{#if this.image}}
+              <img src="{{this.image}}"
+                class="card-img-top">
+            {{else}}
+              <img src="https://media.karousell.com/media/photos/products/2021/11/19/goopi_x_gu__1637316426_a149c02d_progressive.jpg"
+                class="card-img-top">
+            {{/if}}
+            <div class="card-body d-flex justify-content-between">
+              <div>
+                <h5 class="card-title">{{this.name}}</h5>
+                <span>{{this.price}}</span>
+              </div>
+              <div>
+                <a class="btn btn-secondary" href="/admin/products/{{this.id}}/edit">Edit</a>
+                <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-outline-secondary" onclick="return confirm(`確定要刪除 {{this.name}} 嗎？`)">Delete</button>
+                </form>
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     {{/each}}
   </div>
