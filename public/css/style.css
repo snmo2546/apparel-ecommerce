@@ -114,3 +114,7 @@ input.search-input, input.search-input:focus {
 button#search-button {
   border: none;
 }
+
+.product-card {
+  padding: 0 0.25rem;
+}
