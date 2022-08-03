@@ -8,7 +8,12 @@ a {
   aspect-ratio: 2 / 1;
   object-fit: cover;
   object-position: 50% 68%;
-  margin-bottom: 120px;
+  margin-bottom: 50px;
+}
+
+.index-title {
+  border-bottom: 1.5px solid;
+  padding: 0.5rem;
 }
 
 .card {
