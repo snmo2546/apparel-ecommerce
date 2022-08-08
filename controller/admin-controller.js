@@ -41,12 +41,19 @@ const adminController = {
         brandId
       }))
       .then(product => {
-        Stock.create({
-          productId: product.id,
-          color,
-          size,
-          quantity
-        })
+        let stocks = []
+        for (let i = 0; i < size.length; i++) {
+          const stock = {
+            productId: product.id,
+            color: color[i],
+            size: size[i],
+            quantity: quantity[i]
+          }
+          if (stock.size !== '請選擇尺寸') {
+            stocks.push(stock)
+          }
+        }
+        Stock.bulkCreate(stocks)
       })
       .then(() => {
         req.flash('success_messages', '成功新增商品！')
