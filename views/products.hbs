@@ -1,9 +1,12 @@
 <div class="container">
   {{> navbar}}
 
-  <div class="row mt-3">
+  <div class="product-card-container row mt-3">
+    <div class="d-flex justify-content-center mb-4">
+      <h2 class="index-title">Product</h2>
+    </div>
     {{#each products}}
-      <div class="product-card col-md-4">
+      <div class="product-card col-6 col-md-4">
         <div class="card mb-4 shadow-sm">
           <a href="/products/{{this.id}}">
             <img class="card-img-top img-fluid" src="{{this.image}}" alt="Card image cap" width="286px" height="180px"
