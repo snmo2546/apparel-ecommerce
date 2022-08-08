@@ -131,3 +131,7 @@ button#search-button {
 .btn-link {
   text-decoration: none;
 }
+
+* {
+  font-family: 'Open Sans', 'Helvetica', 'sans-serif';
+}
