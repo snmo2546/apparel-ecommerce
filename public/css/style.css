@@ -48,8 +48,9 @@ a {
 }
 
 .card-img-top {
-  max-height: 240px;
+  max-height: 480px;
   object-fit: cover;
+  aspect-ratio: 3 / 4;
 }
 
 .form-control-plaintext:focus {
@@ -119,8 +120,7 @@ button#search-button {
   padding: 0 0.25rem;
 }
 
-.nav-tabs .nav-item .nav-link, 
-.btn-link {
+.nav-tabs .nav-item .nav-link, .btn-link {
   color: #6c757d;
 }
 
