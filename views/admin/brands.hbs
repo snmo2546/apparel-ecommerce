@@ -2,8 +2,8 @@
   {{> admin-navbar}}
 
   {{>admin-tabs route='brands'}}
-  <a class="btn btn-primary mt-3" href="/admin/brands/create" role="button">新增品牌</a>
-  <table class="table align-middle">
+  <a class="btn btn-outline-secondary mt-3" href="/admin/brands/create" role="button">新增品牌</a>
+  <table class="table align-middle mt-3">
     <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
@@ -16,14 +16,14 @@
         <tr>
           <th scope="row">{{this.id}}</th>
           <td>{{this.name}}</td>
-          <td>
+          <td class="table-function">
             <button type="button" class="btn btn-link">
-              <a class="btn btn-link link-primary" href="/admin/brands/{{this.id}}/edit">
+              <a class="btn btn-link" href="/admin/brands/{{this.id}}/edit">
                 Edit
               </a>
             </button>
             <form action="/admin/brands/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-              <button type="submit" class="btn btn-link link-danger" onclick="return confirm(`確定要刪除 {{this.name}} 品牌嗎？`)">
+              <button type="submit" class="btn btn-link" onclick="return confirm(`確定要刪除 {{this.name}} 品牌嗎？`)">
                 Delete</button>
             </form>
           </td>

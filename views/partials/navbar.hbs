@@ -6,11 +6,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item ms-3">
+      <ul class="navbar-nav me-auto mb-lg-0">
+        <li class="nav-item ms-2">
           <a class="nav-link" href="/products/new">New Arrival</a>
         </li>
-        <li class="nav-item dropdown ms-3">
+        <li class="nav-item dropdown ms-2">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Categories
@@ -21,7 +21,7 @@
             {{/each}}
           </ul>
         </li>
-        <li class="nav-item dropdown ms-3">
+        <li class="nav-item dropdown ms-2">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Brands
@@ -33,15 +33,23 @@
           </ul>
         </li>
       </ul>
-    </div>
-    <div>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+      <div class="nav-account-sector">
+        <div>
+          {{#if isAuthenticated}}
+            <a class="nav-account ms-2" href="/accounts/{{user.id}}/orders">My Account</a>
+            <a class="nav-logout ms-2" href="/logout">Logout</a>
+          {{else}}
+            <a class="nav-signin ms-2" href="/signin">Sign In</a>
+          {{/if}}
+          <a class="nav-cart" href="/cart">
+            Cart({{#if user}}{{arrayLength user.Cart.CartItems}}{{else}}{{arrayLength guestCart}}{{/if}})
+          </a>
+        </div>
+        <div class="search-dropdown dropdown nav-search ms-2">
+          <a class="" href="#" id="searchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-magnifying-glass"></i>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu w-50" aria-labelledby="searchDropdown">
             <form action="/products/search">
               <div class="input-group">
                 <input type="text" name="query" class="form-control search-input ms-3">
@@ -53,25 +61,8 @@
               </div>
             </form>
           </ul>
-        </li>
-        {{#if isAuthenticated}}
-          <li class="nav-item ms-2">
-            <a class="nav-link" href="/accounts/{{user.id}}/orders">My Account</a>
-          </li>
-          <li class="nav-item ms-2">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-        {{else}}
-          <li class="nav-item ms-2">
-            <a class="nav-link" href="/signin">Sign In</a>
-          </li>
-        {{/if}}
-        <li class="nav-item ms-2">
-          <a class="nav-link" href="/cart">
-            Cart({{#if user}}{{arrayLength user.Cart.CartItems}}{{else}}{{arrayLength guestCart}}{{/if}})
-          </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
