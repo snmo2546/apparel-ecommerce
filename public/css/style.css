@@ -157,6 +157,19 @@ button#search-button {
   margin-top: 0.5rem;
 }
 
+.cart-container {
+  width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+  .cart-container {
+    width: 90%
+  }
+}
+
+
+/* Breakpoint 768px */
+
 @media screen and (min-width: 768px) {
   .product-card-container {
     padding: 0;
@@ -166,6 +179,8 @@ button#search-button {
     margin-bottom: 0;
   }
 }
+
+/* Breakpoint 992px */
 
 @media screen and (min-width: 992px) {
   .nav-account, .nav-logout, .nav-signin, .nav-cart {
@@ -181,5 +196,9 @@ button#search-button {
   .nav-account-sector {
     display: flex;
     align-items: center;
+  }
+
+  .cart-container {
+    width: 80%;
   }
 }
