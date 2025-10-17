@@ -2,17 +2,6 @@
 
 An e-commerce site where customers can browse fashion items, add to cart and checkout with ECPay. While the owners can edit products, update inventories and manage orders.
 
-This project is now live! Try it out at 👉 https://mysterious-waters-87170.herokuapp.com/index <br>
-
-Use the default accounts below or register your own one!
-<pre><code>(User) user1@example.com / 123 
-(Admin) root@example.com / 12345678 (Route: /admin)</code></pre>
-
-Fill in the card information below when checking out with ECPay
-<pre><code>Card Number: 4311-9222-2222-2222
-Expiration Date: Any future date (Format: MM/YY)
-Verification Code: 222</code></pre>
-
 ## Features
 ### Customer
 Browse Items
